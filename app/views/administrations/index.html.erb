@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>Administration Dashboard</title>
+	<style type="text/css">
+	body{
+	background-color: black;
+}
+	</style>
+</head>
+<% if session[:loggedIn] == true then %>
+<body style='background-color', 'black'>
+	<!-- menuColumn -->
+	<div class='col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0' id='leftColumn'>
+		
+			<a href="/admin_reviews" class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_review'>Reviews (<%=@reviewCount%>)</div></a>
+			<a href='/admin_food' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_food'>Food</div></a>
+			<a href='/admin_drinks' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_drinks'>Drinks</div></a>
+			<a href='/admin_photos' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_photos'>Photos</div></a>
+			<a href='/admin_abouts' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_about'>About</div></a>
+			<a href='/landings' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_logout'>Log Out</div></a>
+
+		
+	</div>
+	<!-- End menuColumn -->
+
+	<!-- Right Column -->
+	<div class='col-md-9 col-xs-12' id='rightColumn'>
+	</div>
+	<!-- End Right Column -->
+</body>
+<% end %>
+</html>

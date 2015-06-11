@@ -1,0 +1,546 @@
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+	body{
+	background-color: black;
+	color: orange;
+	}
+		.tableCustom{
+			margin-bottom: 50px;
+		}
+			.descriptionBox{
+				max-width: 150px;
+			}
+			.headerImg{
+				width: 40px;
+			}
+			.headerCategory{
+				width: 125px;
+			}
+			.headerTitle{
+				width: 150px;
+			}
+			.headerDescription{
+				width: 250px;
+			}
+				.formBtns{
+					display: inline-block;
+				}
+				.priceTopSpace{
+					margin-top: 5px;
+				}
+		.underline{
+			text-decoration: underline;
+		}
+
+		.p8oz{
+			padding: 1px;
+			width: 425px;
+			color: yellow;
+			font-size: 12px;
+			background-color: red;
+		}
+
+	</style>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+	});
+
+</script>
+</head>
+<body>
+
+<html>
+<head>
+	<title>Administration Drinks Dashboard</title>
+</head>
+<% if session[:loggedIn] == true then %>
+<body>
+	<!-- menuColumn -->
+	<div class='col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0' id='leftColumn'>
+		
+			<a href='/admin_reviews' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_review'>Reviews (<%=@reviewCount%>)</div></a>
+			<a href='/admin_food' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_food'>Food</div></a>
+			<a href='/admin_drinks' class='navLinkOn'><div class='menuList col-xs-12 menuText' id='menu_drinks'>Drinks</div></a>
+			<a href='/admin_photos' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_photos'>Photos</div></a>
+			<a href='/admin_abouts' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_about'>About</div></a>
+			<a href='/landings' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_logout'>Log Out</div></a>
+		
+	</div>
+	<!-- End menuColumn -->
+	<div class='col-md-9 col-xs-12' id='rightColumn'>
+		
+		<!-- displayRow -->
+		<div class='row' id='displayRow'>
+			<button class='col-xs-2 col-xs-offset-5' data-toggle="modal" data-target="#menuModal">Review In Menu Style</button>
+
+			<!-- Review In Menu Style Modal -->
+				<div class="modal fade" id='menuModal'>
+				  <div class="modal-dialog modal-lg">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title">Currently Displayed Drink Menu</h4>
+				      </div>
+				      <div class="modal-body">
+				      	<div class='container-fluid'>
+
+				        	<!-- Display Drinks Menu Style -->
+				        		<h2 class='centerText underline'>Hot Drinks</h2>
+				        		<br>
+				        		<div class='row'>
+				        			<div class='col-xs-5 col-xs-offset-5'>
+	    								<div class='col-xs-3 centerText underline'><h5>8oz</h5></div>
+	    								<div class='col-xs-3 centerText underline'><h5>12oz</h5></div>
+	    								<div class='col-xs-3 centerText underline'><h5>16oz</h5></div>
+	    								<div class='col-xs-3 centerText underline'><h5>20oz</h5></div>
+					        		</div>
+				        		</div>
+				        		<% @hotDrinkCategory.each do |drinkCategory| %>
+				        			<h3><%= drinkCategory.sub_category %></h3>
+				        			<% @hotDrinks.each do |drink| if drink.sub_category == drinkCategory.sub_category then %>
+				        			<div class='row'>
+					        			<div class='col-xs-4 col-xs-offset-1'>
+					        				<h4><%= drink.title %></h4>
+					        				<p><%= drink.description %></p>
+					        			</div>
+					        			<div class='col-xs-5'>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_8oz, precision:2) %></div>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_12oz, precision:2) %></div>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_16oz, precision:2) %></div>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_20oz, precision:2) %></div>
+					        			</div>
+					        		</div>
+				        			<% end end %>
+				        		<% end %>
+
+				        		<h2 class='centerText underline'>Cold Drinks</h2>
+				        		<br>
+				        		<div class='row'>
+				        			<div class='col-xs-5 col-xs-offset-5'>
+	    								<div class='col-xs-3 centerText underline'><h5>12oz</h5></div>
+	    								<div class='col-xs-3 centerText underline'><h5>16oz</h5></div>
+	    								<div class='col-xs-3 centerText underline'><h5>20oz</h5></div>
+					        		</div>
+				        		</div>
+				        		<% @coldDrinkCategory.each do |drinkCategory| %>
+				        			<h3><%= drinkCategory.sub_category %></h3>
+				        			<% @coldDrinks.each do |drink| if drink.sub_category == drinkCategory.sub_category then %>
+				        			<div class='row'>
+					        			<div class='col-xs-4 col-xs-offset-1'>
+					        				<h4><%= drink.title %></h4>
+					        				<p><%= drink.description %></p>
+					        			</div>
+					        			<div class='col-xs-5'>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_12oz, precision:2) %></div>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_16oz, precision:2) %></div>
+		        							<div class='col-xs-3 centerText'>$<%= number_with_precision(drink.price_20oz, precision:2) %></div>
+					        			</div>
+					        		</div>
+				        			<% end end %>
+				        		<% end %>
+				        	<!-- End Display Drink Menu Style -->
+				    	</div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div><!-- /.modal-content -->
+				  </div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			<!-- END Review In Menu Style Modal -->
+
+
+
+			<!-- Display Current Drink Items -->
+
+				<div class='col-xs-12'>
+					<h2 class='centerText underline'>Hot Drinks</h2>
+				</div>
+				<table class='table table-hover'>
+					<thead>
+						<tr>
+							<th class='centerText headerImg'>Img</th>
+							<th class='centerText headerCategory'>Category</th>
+							<th class='centerText headerTitle'>Title</th>
+							<th class='centerText headerDescription'>Description</th>
+							<th class='centerText'>8oz</th>
+							<th class='centerText'>12oz</th>
+							<th class='centerText'>16oz</th>
+							<th class='centerText'>20oz</th>
+							<th class='centerText'>Actions</th>
+						</tr>
+					</thead>
+				
+					<% @hotDrinkCategory.each do |drinkCategory| %>
+						<tbody>
+							<% @hotDrinks.each do |drink| if drink.sub_category == drinkCategory.sub_category then %>
+							<tr>
+								<td class='centerText'>
+									<% if drink.image_file_name != nil then  %>
+					 					<button data-toggle="modal" data-target="#drinkModal<%=drink.id%>"><i class="fa fa-camera-retro"></i></button>
+					 				<% end %>
+	 								<!-- Drink Image Modal -->
+										<div class="modal fade" id="drinkModal<%=drink.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  	<div class="modal-dialog">
+										    	<div class="modal-content">
+										      		<div class="modal-header">
+										        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        		<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+										      		</div>
+											      	<div class="modal-body">
+											        	<%= image_tag drink.image.url(:medium) %>
+											      	</div>
+											     	<div class="modal-footer">
+											        	<button type="button" class="btn btn-primary">Change Image</button>
+											      	</div>
+										   		</div>
+											</div>
+										</div>
+									<!-- END Drink Image Modal -->
+					 			</td>
+								<td class='centerText'><%= drink.sub_category %></td>
+								<td class='centerText'><%= drink.title %></td>
+								<td class='centerText'><%= drink.description %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_8oz, precision:2) %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_12oz, precision:2) %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_16oz, precision:2) %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_20oz, precision:2) %></td>
+								<td class='centerText'>
+									
+									<!-- Edit Drink -->
+									<button class='btn-warning' data-toggle="modal" data-target="#id<%=drink.id%>"><i class="fa fa-wrench"></i></button>
+
+									<!-- Modal For Edit Drink Form -->
+										<div class="modal fade" id='id<%=drink.id%>'>
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        <h4 class="modal-title">Edit <%= drink.category %>/<%= drink.sub_category %>/<%= drink.title %></h4>
+										      </div>
+										      <div class="modal-body">
+										    	
+										      	<form class="form-horizontal" action='/admin_drinks/<%= drink.id %>/edit' method='PATCH'>
+													<div class="form-group">
+													    <label for="sub_category" class="col-sm-4 control-label">Sub Category:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="sub_category" name='sub_category' value='<%= drink.sub_category %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="title" class="col-sm-4 control-label">Title:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="title" name='title' value='<%= drink.title %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="description" class="col-sm-4 control-label">Description:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="description" name='description' value='<%= drink.description %>'>
+													    </div>
+													</div>
+													<% if drink.category == 'Hot' then %>
+														<div class="form-group">
+														    <label for="price_8oz" class="col-sm-4 control-label">Price: 8oz</label>
+														    <div class="col-sm-8">
+														      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_8oz' class="form-control" id="price_8oz" value='<%= drink.price_8oz %>'>
+														    </div>
+														</div>	
+													<% end %>
+													<div class="form-group">
+													    <label for="price_12oz" class="col-sm-4 control-label">Price: 12oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_12oz' class="form-control" id="price_12oz" value='<%= drink.price_12oz %>'>
+													    </div>
+													</div>	
+													<div class="form-group">
+													    <label for="price_16oz" class="col-sm-4 control-label">Price: 16oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_16oz' class="form-control" id="price_16oz" value='<%= drink.price_16oz %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="price_20oz" class="col-sm-4 control-label">Price: 20oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_20oz' class="form-control" id="price_20oz" value='<%= drink.price_20oz %>'>
+													    </div>
+													</div>	
+													  <div class="form-group">
+													    <div class="col-sm-offset-4 col-sm-4">
+													      <button type="submit" class="btn btn-default">Save Changes</button>
+													    </div>
+													 </div>
+												</form>
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+										</div><!-- /.modal -->
+									<!-- End Modal For Edit Drink Form -->
+									
+									<!-- Delete Drink -->
+									<form class='formBtns' action='/admin_drinks/<%=drink.id%>' method='SHOW'>
+										<button type='submit' class='btn-danger'><i class="fa fa-trash-o"></i></button>
+									</form>
+								</td>
+							</tr>
+							<% end end %>
+						</tbody>
+					<% end %>
+				</table>
+
+				<div class='col-xs-12'>
+					<h2 class='centerText underline'>Cold Drinks</h2>
+				</div>
+				<table class='table table-hover'>
+					<thead>
+						<tr>
+							<th class='centerText headerImg'>Img</th>
+							<th class='centerText headerCategory'>Category</th>
+							<th class='centerText headerTitle'>Title</th>
+							<th class='centerText headerDescription'>Description</th>
+							<th class='centerText'>8oz</th>
+							<th class='centerText'>12oz</th>
+							<th class='centerText'>16oz</th>
+							<th class='centerText'>20oz</th>
+							<th class='centerText'>Actions</th>
+						</tr>
+					</thead>
+				
+					<% @coldDrinkCategory.each do |drinkCategory| %>
+						<tbody>
+							<% @coldDrinks.each do |drink| if drink.sub_category == drinkCategory.sub_category then %>
+							<tr>
+								<td class='centerText'>
+									<% if drink.image_file_name != nil then  %>
+					 					<button data-toggle="modal" data-target="#drinkModal<%=drink.id%>"><i class="fa fa-camera-retro"></i></button>
+					 				<% end %>
+	 								<!-- Drink Image Modal -->
+										<div class="modal fade" id="drinkModal<%=drink.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  	<div class="modal-dialog">
+										    	<div class="modal-content">
+										      		<div class="modal-header">
+										        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        		<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+										      		</div>
+											      	<div class="modal-body">
+											        	<%= image_tag drink.image.url(:medium) %>
+											      	</div>
+											     	<div class="modal-footer">
+											        	<button type="button" class="btn btn-primary">Change Image</button>
+											      	</div>
+										   		</div>
+											</div>
+										</div>
+									<!-- END Drink Image Modal -->
+					 			</td>
+								<td class='centerText'><%= drink.sub_category %></td>
+								<td class='centerText'><%= drink.title %></td>
+								<td class='centerText'><%= drink.description %></td>
+								<td class='centerText'>
+									<% if drink.category != 'Cold' then %>
+										$<%= number_with_precision(drink.price_8oz, precision:2) %>
+									<% else %>
+										N/A
+									<% end %>
+								</td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_12oz, precision:2) %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_16oz, precision:2) %></td>
+								<td class='centerText'>$<%= number_with_precision(drink.price_20oz, precision:2) %></td>
+								<td class='centerText'>
+									
+									<!-- Edit Drink -->
+									<button class='btn-warning' data-toggle="modal" data-target="#id<%=drink.id%>"><i class="fa fa-wrench"></i></button>
+
+									<!-- Modal For Edit Drink Form -->
+										<div class="modal fade" id='id<%=drink.id%>'>
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        <h4 class="modal-title">Edit <%= drink.category %>/<%= drink.sub_category %>/<%= drink.title %></h4>
+										      </div>
+										      <div class="modal-body">
+										    	
+										      	<form class="form-horizontal" action='/admin_drinks/<%= drink.id %>/edit' method='PATCH'>
+													<div class="form-group">
+													    <label for="sub_category" class="col-sm-4 control-label">Sub Category:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="sub_category" name='sub_category' value='<%= drink.sub_category %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="title" class="col-sm-4 control-label">Title:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="title" name='title' value='<%= drink.title %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="description" class="col-sm-4 control-label">Description:</label>
+													    <div class="col-sm-8">
+													      	<input type="text" class="form-control" id="description" name='description' value='<%= drink.description %>'>
+													    </div>
+													</div>
+													<% if drink.category == 'Hot' then %>
+														<div class="form-group">
+														    <label for="price_8oz" class="col-sm-4 control-label">Price: 8oz</label>
+														    <div class="col-sm-8">
+														      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_8oz' class="form-control" id="price_8oz" value='<%= drink.price_8oz %>'>
+														    </div>
+														</div>	
+													<% end %>
+													<div class="form-group">
+													    <label for="price_12oz" class="col-sm-4 control-label">Price: 12oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_12oz' class="form-control" id="price_12oz" value='<%= drink.price_12oz %>'>
+													    </div>
+													</div>	
+													<div class="form-group">
+													    <label for="price_16oz" class="col-sm-4 control-label">Price: 16oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_16oz' class="form-control" id="price_16oz" value='<%= drink.price_16oz %>'>
+													    </div>
+													</div>
+													<div class="form-group">
+													    <label for="price_20oz" class="col-sm-4 control-label">Price: 20oz</label>
+													    <div class="col-sm-8">
+													      	<input type="number" step='0.01' min='0.01' max='100.00' name='price_20oz' class="form-control" id="price_20oz" value='<%= drink.price_20oz %>'>
+													    </div>
+													</div>	
+													  <div class="form-group">
+													    <div class="col-sm-offset-4 col-sm-4">
+													      <button type="submit" class="btn btn-default">Save Changes</button>
+													    </div>
+													 </div>
+												</form>
+										      </div>
+										    </div><!-- /.modal-content -->
+										  </div><!-- /.modal-dialog -->
+										</div><!-- /.modal -->
+									<!-- End Modal For Edit Drink Form -->
+									
+									<!-- Delete Drink -->
+									<form class='formBtns' action='/admin_drinks/<%=drink.id%>' method='SHOW'>
+										<button type='submit' class='btn-danger'><i class="fa fa-trash-o"></i></button>
+									</form>
+								</td>
+							</tr>
+							<% end end %>
+						</tbody>
+					<% end %>
+				</table>
+
+		</div>
+		<!-- End displayRow -->
+		
+		
+
+		<!-- formRow -->
+		<div class='row' id='formRow'>
+			<!-- Drink Form -->
+
+				<!-- Drink Form -->
+				<div class='col-xs-12' id='drinkForm'>
+					<h3 class='centerText formTitle'>Add A New Drink Item To The Menu</h3>
+					<form class="form-horizontal" action='/admin_drinks' method='post' enctype="multipart/form-data">
+					 	
+					 	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+
+
+					 	<div class="form-group">
+					    	<label for="category" class="col-sm-2 col-sm-offset-1 control-label">Category:</label>
+					    	<div class="col-sm-6">
+					    	 	<select class="form-control" id="categoryChocie" name='category'>
+					    	 		<option id='hotOption'>Hot</option>
+					    	 		<option id='coldOption'>Cold</option>
+					    	 	</select>
+					    	</div>
+					  	</div>
+					 
+					  	<div class="form-group">
+					    	<label for="sub_category" class="col-sm-2 col-sm-offset-1 control-label">Sub-category:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="sub_category" name='sub_category' placeholder="Frappe/Cappucino/Smoothie/...">
+					    	</div>
+					  	</div>
+					 
+					  	<div class="form-group">
+					    	<label for="title" class="col-sm-2 col-sm-offset-1 control-label">Title:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="title" name='title' placeholder="Flavor/Name/White Chocolate/....">
+					    	</div>
+					  	</div>
+
+					  	<div class='form-group'>
+					  		<label for='description' class='col-sm-2 col-sm-offset-1 control-label'>Description:</label>
+					  		<div class='col-sm-6'>
+					  			<input type='text' class='form-control' id='description' name='description' placeholder='Description of drink item...'>
+					  		</div>
+					  	</div>
+
+					  	<div class='centerText col-xs-8 col-xs-offset-3'>
+					  		<p class='p8oz'>8oz Pricing Only Applicable To <span class='underline'>Hot</span> Drinks. Enter 0 For Cold Drinks. All 8oz Cold Prices Omitted.</p>
+					  	</div> 
+
+					  	<div class='form-group'>
+							<label for='price_8oz' class='col-sm-2 col-sm-offset-1 control-label'>Price - 8oz:</label>
+							<div class='col-sm-6'>
+								<input type='number' class='form-control' min='0.00' name='price_8oz' max='99.99' step='0.01' id='price_8oz' placeholder='Price for 8oz Size (If Cold Drink => $0.00)'>
+							</div>
+						</div>
+
+						<div class='form-group'>
+							<label for='price_12oz' class='col-sm-2 col-sm-offset-1 control-label'>Price - 12oz:</label>
+							<div class='col-sm-6'>
+								<input type='number' class='form-control' min='0.01' name='price_12oz' max='99.99' step='0.01' id='price_12oz' name='price_12oz' placeholder='Price for 16oz Size'>
+							</div>
+						</div>
+
+						<div class='form-group'>
+							<label for='price_16oz' class='col-sm-2 col-sm-offset-1 control-label'>Price - 16oz:</label>
+							<div class='col-sm-6'>
+								<input type='number' class='form-control' min='0.01' max='99.99' step='0.01' id='price_16oz' name='price_16oz' placeholder='Price for 16oz Size'>
+							</div>
+						</div>
+
+						<div class='form-group'>
+							<label for='price_20oz' class='col-sm-2 col-sm-offset-1 control-label'>Price - 20oz:</label>
+							<div class='col-sm-6'>
+								<input type='number' class='form-control' min='0.01' max='99.99' step='0.01' id='price_20oz' name='price_20oz' placeholder='Price for 20oz Size'>
+							</div>
+						</div>
+
+						<div class='form-group'>
+							<label for='drink_image' class='col-sm-2 col-sm-offset-1 control-label'>Drink Image</label>
+							<div class='col-sm-6'>
+								<input type='file' name='image' class='file' id='image'>
+							</div>	
+						</div>
+
+					  	<div class="form-group">
+					    	<div class="col-sm-offset-5 col-sm-2">
+					      		<button type="submit" class="btn btn-default">Add To Menu</button>
+					   		</div>
+					  	</div>
+					
+
+					</form>
+				</div>
+			<!-- End Drink Form -->
+			
+		</div>
+		<!-- End formRow -->
+	</div>
+
+</body>
+<% end %>
+</html>
+
+
+</body>
+</html>

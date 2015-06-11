@@ -1,0 +1,240 @@
+<html>
+<head>
+	<title>Administration Dashboard</title>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#reviewsForm').hide();
+			$('#reviewsDisplay').hide();
+			$('#foodForm').hide();
+			$('#drinksForm').hide();
+			$('#photosForm').hide();
+			$('#aboutForm').hide();
+			
+			// Show reviews in display and form div
+			$('#menu_review').click(function(){
+				$('#reviewsForm').show();
+				$('#reviewsDisplay').show();
+				$('#foodForm').hide();
+				$('#drinksForm').hide();
+				$('#photosForm').hide();
+				$('#aboutForm').hide();
+			})
+
+			// Show food in display and form div
+			$('#menu_food').click(function(){
+				$('#reviewsForm').hide();
+				$('#reviewsDisplay').hide();
+				$('#foodForm').show();
+				$('#drinksForm').hide();
+				$('#photosForm').hide();
+				$('#aboutForm').hide();
+			})
+
+			// Show drinks in display and form div
+			$('#menu_drinks').click(function(){
+				$('#reviewsForm').hide();
+				$('#reviewsDisplay').hide();
+				$('#foodForm').hide();
+				$('#drinksForm').show();
+				$('#photosForm').hide();
+				$('#aboutForm').hide();
+			})
+
+			// Show photos on display and form div
+			$('#menu_photos').click(function(){
+				$('#reviewsForm').hide();
+				$('#reviewsDisplay').hide();
+				$('#foodForm').hide();
+				$('#drinksForm').hide();
+				$('#photosForm').show();
+				$('#aboutForm').hide();
+			})
+
+			// Show about in display and form div
+			$('#menu_about').click(function(){
+				$('#reviewsForm').hide();
+				$('#reviewsDisplay').hide();
+				$('#foodForm').hide();
+				$('#drinksForm').hide();
+				$('#photosForm').hide();
+				$('#aboutForm').show();
+			})
+
+		})
+
+	</script>
+</head>
+
+<body>
+	<!-- menuColumn -->
+	<div class='col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0' id='leftColumn'>
+		
+			<div class='menuList col-xs-12 menuText' id='menu_review'>Reviews (<%=@reviewCount%>)</div>
+			<div class='menuList col-xs-12 menuText' id='menu_food'>Food</div>
+			<div class='menuList col-xs-12 menuText' id='menu_drinks'>Drinks</div>
+			<div class='menuList col-xs-12 menuText' id='menu_photos'>Photos</div>
+			<div class='menuList col-xs-12 menuText' id='menu_about'>About</div>
+		
+	</div>
+	<!-- End menuColumn -->
+	<div class='col-md-9 col-xs-12' id='rightColumn'>
+		
+		<!-- displayRow -->
+		<div class='row' id='displayRow'>
+
+			<!-- Display Current Reviews -->
+				<div class='col-xs-12' id='reviewsDisplay'>
+					<div class='table-responsive'>
+						<table class='table table-bordered'>
+							<thead>
+								<tr>
+									<th class='col-xs-3 centerText'>Author</th>
+  									<th class='col-xs-1 centerText'>Rating</th>
+  									<th class='col-xs-6 centerText'>Comment</th>
+  									<th class='col-xs-2 centerText'>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% if @acceptedReviews.length > 0 then %>
+									<% @acceptedReviews.each do |oldReview| %>
+									<tr>
+										<td class='col-xs-3'><%=oldReview.author%></td>
+										<td class='col-xs-1 centerText'><%=oldReview.rating%></td>
+										<td class='col-xs-6'><%=oldReview.content%></td>
+										<td class='col-xs-2 centerText'>
+											<!-- Delete Review -->
+											<form action='reviews/<%=oldReview.id%>' method='DELETE' class='deleteBtn'>
+												<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+												<input type='hidden' name='review_id' value='<%=oldReview.id%>'>
+												<input type='submit' class='btn-danger'value='Delete'>
+											</form>
+										</td>
+									</tr>
+									<% end %>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			<!-- End Display Current Reviews -->
+
+		</div>
+		<!-- End displayRow -->
+		
+		<!-- formRow -->
+		<div class='row' id='formRow'>
+			
+			<!-- Review Form -->
+				<div class='col-xs-12' id='reviewsForm'>
+					<div class="table-responsive">
+  						<table class="table table-bordered">
+  							<thead>
+  								<tr>
+  									<th class='centerText'>Author</th>
+  									<th class='centerText'>Rating</th>
+  									<th class='centerText'>Comment</th>
+  									<th class='centerText'>Action</th>
+  								</tr>
+  							</thead>
+   							<tbody>	
+								<% @checkReviews.each do |newReview| %>
+								<tr>
+									<td class='col-xs-3'><%=newReview.author%></td>
+									<td class='col-xs-1 centerText'><%=newReview.rating%></td>
+									<td class='col-xs-6'><%=newReview.content%></td>
+									<td class='col-xs-2 centerText'>
+										
+										<!-- Accept Review -->
+										<form action='reviews/<%=newReview.id%>/edit' method='GET' class='acceptBtn'>
+											<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+											<input type='hidden' name='review_id' value='<%=newReview.id%>'>
+											<input type='submit' class='btn-success' value='Accept'>
+										</form>
+										
+										<!-- Deny/Delete Review -->
+										<form action='reviews/<%=newReview.id%>' method='DELETE' class='deleteBtn'>
+											<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+											<input type='hidden' name='review_id' value='<%=newReview.id%>'>
+											<input type='submit' class='btn-danger'value='Delete'>
+										</form>
+										
+									</td>
+								</tr>
+   								<% end %>
+   							</tbody>
+  						</table>
+					</div>
+					
+				</div>
+
+			<!-- Food Form -->
+				<div class='col-xs-12' id='foodForm'>
+						
+					<form class="form-horizontal">
+					 
+					 	<div class="form-group">
+					    	<label for="category" class="col-sm-2 col-sm-offset-1 control-label">Category:</label>
+					    	<div class="col-sm-6">
+					    	 	<input type="text" class="form-control" id="category" placeholder="Breakfast/Lunch/Snack">
+					    	</div>
+					  	</div>
+					 
+					  	<div class="form-group">
+					    	<label for="sub_category" class="col-sm-2 col-sm-offset-1 control-label">Sub-category:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="sub_category" placeholder="Sandwhiches/Salads/Burgers">
+					    	</div>
+					  	</div>
+					 
+					  	<div class="form-group">
+					    	<label for="title" class="col-sm-2 col-sm-offset-1 control-label">Title:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="title" placeholder="Texas Pit Burger/Chicken Chop Chop/...3">
+					    	</div>
+					  	</div>
+
+					  	<div class='form-group'>
+					  		<label for='price' class='col-sm-2 col-sm-offset-1'>
+					  		<div class='col-sm-6'>
+					  		</div>
+					  	</div>
+
+					  	<div class="form-group">
+					    	<div class="col-sm-offset-5 col-sm-2">
+					      		<button type="submit" class="btn btn-default">Add To Menu</button>
+					   		</div>
+					  	</div>
+					
+
+					</form>
+				</div>
+			<!-- End Food Form -->
+
+			<!-- Drinks Form -->
+				<div class='col-xs-12' id='drinksForm'>
+					Drinks Form
+				</div>
+			<!-- End Drinks Form -->
+
+			<!-- Photos Form -->
+				<div class='col-xs-12' id='photosForm'>
+					<form action='/reviews' method='post' enctype="multipart/form-data"> 
+						<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+						<input type='file' name='picture'>
+						<input type='submit' class='btn-submit'>
+					</form>
+				</div>
+			<!-- End Photos Form -->
+
+			<!-- About Form -->
+				<div class='col-xs-12' id='aboutForm'>
+					About Form
+				</div>
+			<!-- End About Form -->
+
+		</div>
+		<!-- End formRow -->
+	</div>
+
+</body>
+</html>

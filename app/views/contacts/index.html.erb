@@ -1,0 +1,246 @@
+<html>
+<head>
+	<title>Contact Cafe Cocina</title>
+
+	<style type="text/css">
+		.businessCard{
+			margin-top: 50px;
+			height: 168px;
+			width: 252px;
+			background-image: url('/assets/rolocard.png');
+		}
+			.cardInfo{
+				font-family: 'Montserrat', sans-serif;
+				text-decoration: underline;
+			}
+				#emailLink{
+					margin-top: -10px;
+				}
+			.map{
+				margin-top: 50px;
+			}
+				.socialMediaIcon{
+					display: inline-block;
+					margin-left: 20px;
+				}
+			#contactFooter{
+				margin-top: 600px;
+			}
+			.facebookDiv{
+				margin-top: 50px;
+			}
+	</style>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			// BACKBOARD HEIGHT SET FOR SCREEN DIMENSIONS
+				var h = $(window).height() * 0.80;
+ 				$('.backboard').css('min-height', h); 
+		})
+
+	</script>
+
+	<script type="text/javascript" src="path/to/instafeed.min.js"></script>
+
+	<script type="text/javascript">
+    var feed = new Instafeed({
+        get: 'user',
+        userID: 'Caffe_Cocina',
+        clientId: '4460ca5addcb4a41b1a3bd07fac4db54'
+    });
+    feed.run();
+</script>
+</head>
+<body class='backboardBody'>
+	
+<script>
+	
+	(function(d, s, id) {
+  		var js, fjs = d.getElementsByTagName(s)[0];
+  		if (d.getElementById(id)) return;
+  		js = d.createElement(s); js.id = id;
+  		js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+  		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+</script>
+
+<div class='containerBox'>
+	
+		<!-- HEADER/NAVBAR -->
+	<div class='col-xs-12 navbarHeader navbar-default'>
+		
+		<div class='col-xs-2 navbarLogo' data-toggle='collapse' data-target='#theList'>
+		</div>
+
+	
+		
+		<div class='col-xs-5 col-xs-offset-1 col-lg-offset-2 navbarLink navbarBack collapse navbar-collapse' id='theList'>
+			<ul class='centerItem listItems'>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/landings'>Home</a></li>
+				
+				<li class='dropdown navLinks navLinkBack navLinkOff'>
+					<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>About</span><span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/ourstory'>Our Story</a></li>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/photo_albums'>Photos</a></li>
+					</ul>
+				</li>
+
+				<li class='dropdown navLinks navLinkBack navLinkOff'>
+					<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>Menu<span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/menus'>Caffe Menu</a></li>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/catering'>Catering</a></li>
+					</ul>
+				</li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/events'>Events</a></li>
+				<li class='navLinks navLinkBack navLinkOn'><a class='navLinkColorOn' href='/contacts'>Contact</a></li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/reviews'>Reviews</a></li>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/merchandise'>Store</a></li>
+			</ul>
+		</div>
+		<button class='pull-right toggleBox collapsed navbar-toggle navbar-collapse' data-toggle='collapse' data-target='#theList'>
+        <span class="fa fa-bars fa-lg"></span>
+		</button>
+	</div>
+	<!-- END HEADER/NAVBAR -->
+<div class='row'>
+	<!-- Contacts Body -->
+	<div class='col-xs-12' id='contactBody'>
+		<!-- Left Column -->
+		<div class='col-xs-12 col-md-4 col-lg-6'>
+			
+			<div class='col-xs-4 col-xs-offset-1 col-lg-offset-0 businessCard'>
+				<!-- Business Card -->
+				<h5 class='cardInfo'>Contacts</h5>			
+					<!-- Phone Number -->
+					<div class='row'>
+						<div class='col-xs-4 cardLabel'>
+							<h4>Phone:</h4>
+						</div>
+						<div class='col-xs-8 cardContent'>
+							<% @contacts.each do |contact| if contact.label == 'phone_number' then %>
+								<h5><a href='tel:<%= contact.message %>'><%= contact.message %></a></h5>
+							<% end end %>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='col-xs-4 cardLabel'>
+							<h4>Email:</h4>
+						</div>
+						<div class='col-xs-8 cardContent'>
+							<% @contacts.each do |contact| if contact.label == 'email' then %>
+								<h5 ><a href="mailto:'<%= contact.message %>'">CaffeCocinaComments @gmail.com</a></h5>
+							<% end end %>
+						</div>
+					</div>
+			</div>
+
+			<div class='col-xs-4 col-xs-offset-2 col-md-offset-1 col-lg-offset-0 businessCard'>
+				<!-- Business Card -->
+				<h5 class='cardInfo'>Directions</h5>			
+					<!-- Phone Number -->
+					<div class='row'>
+						<div class='col-xs-4 cardLabel'>
+							<h4>Address:</h4>
+						</div>
+						<div class='col-xs-8 cardContent'>
+							<% @contacts.each do |contact| if contact.label == 'address1' then %>
+								<h5><%= contact.message %></h5>
+							<% end end %>
+							<% @contacts.each do |contact| if contact.label == 'address2' then %>
+								<h5><%= contact.message %></h5>
+							<% end end %>
+						</div>
+					</div>
+			</div>
+
+			<div class='col-xs-4 col-xs-offset-4 col-md-offset-1 col-lg-offset-3 businessCard'>
+				<!-- Business Card -->
+				<h5 class='cardInfo'>Social Media</h5>			
+					<!-- Phone Number -->
+					<div class='row'>
+						<div class='socialMediaIcon'>
+							<a href="https://twitter.com/share" data-size="large" data-count="none"><img src='/assets/CoffeeCup_Twitter.png'></a>
+						</div>	
+						<div class='socialMediaIcon'>
+							<a href="http://www.facebook.com/poulsbocaffecocina" data-size="large" data-count="none"><img src='/assets/CoffeeCup_Facebook.png'></a>
+						</div>	
+						<div class='socialMediaIcon'>
+							<a href="https://instagram.com/caffe_cocina" data-size="large" data-count="none"><img src='/assets/CoffeeCup_Instagram.png'></a>
+						</div>
+						<div class='socialMediaIcon'>
+							<a href="http://www.yelp.com/biz/caffe-cocina-poulsbo" data-size="large" data-count="none"><img src='/assets/CoffeeCup_Yelp.png'></a>
+						</div>	
+						<div class='socialMediaIcon'>
+							<% @contacts.each do |contact| if contact.label == 'email' then %>
+							<a href="mailto:'<%= contact.message %>" data-size="large" data-count="none"><img src='/assets/CoffeeCup_Email.png'></a>
+							<% end end %>
+						</div>		
+						<div class='socialMediaIcon'>
+							<a href="#" data-size="large" data-count="none"><img src='/assets/CoffeeCup_GooglePlus.png'></a>
+						</div>		
+					</div>
+			</div>
+
+		</div>
+
+		<!-- End Left Column -->
+
+		<!-- Right Column -->
+		<div class='col-xs-6 col-xs-offset-2 col-md-offset-0 map'>
+			<iframe width="500" 
+					height="400" 
+					frameborder="5" 
+					style="border:5"
+					src="https://www.google.com/maps/embed/v1/place?q=580+NW+Finn+Hill+Rd,+Poulsbo,+WA,+United+States&key=AIzaSyC_96wd3aHaxJO3YefMZr5wiw2vZxOmeq0">
+			</iframe>
+		</div>
+		<!-- End Right Column -->
+
+
+	</div>
+	<!-- End Contacts Body -->
+</div>
+		<!-- Facebook Scroll -->
+		<div class='row facebookDiv'>
+			<div id="fb-root"></div>
+			<div class='col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4'>
+				<div class="fb-page" data-href="https://www.facebook.com/poulsbocaffecocina" data-width="500" data-height="700" data-hide-cover="false" data-show-facepile="false" data-show-posts="true">
+					<div class="fb-xfbml-parse-ignore">
+						<blockquote cite="https://www.facebook.com/facebook">
+							<a href="https://www.facebook.com/facebook">Facebook</a>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Facebook Scroll -->
+
+
+		
+	<!-- Footer -->
+	<div class='col-xs-12 footerboard' id='contactFooter'>
+		
+	</div>
+	<!-- End Footer -->
+
+
+
+
+
+
+
+
+
+
+	
+
+</div>
+
+</body>
+</html>

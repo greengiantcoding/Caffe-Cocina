@@ -1,0 +1,119 @@
+// Place all the styles related to the Administrations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+	
+
+	#leftColumn{
+		padding-top: 25px;
+		padding-bottom: 25px;
+		border: 10px orange ridge;
+		border-radius: 5px;
+		background-color: black;
+	}
+		.menuList{
+			color: orange;
+			list-style-type: none;
+			min-height: 75px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			background-color: black;
+			border: 5px solid orange;
+			border: ridge;
+			border-radius: 20px;
+		}
+			.menuText{
+				color: orange;
+				font-size: 25px;
+				font-weight: bold;
+				font-family: 'Times New Roman';
+				text-align: center;
+			}
+			.menuShadow{
+				box-shadow: 10px 10px 5px orange;
+			}
+				.navLink{
+					color: silver;
+				}
+				.navLinkOn{
+					background-color: black;
+					color: red;
+				}
+	#rightColumn{
+		margin-left: 50px;
+	}
+		#displayRow{
+			color: orange;
+			margin-bottom: 50px;
+			min-height: 350px;
+			max-height: 500px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+			overflow-y: scroll;
+		}
+		#adminAbouts{
+			color: orange;
+			margin-top: 50px;
+			padding: 15px;
+			min-height: 350px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+		}
+		#formRow{
+			margin-top: 50px;
+			padding: 15px;
+			min-height: 350px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+		}
+			.formTitle{
+				margin-top: 15px;
+				margin-bottom: 20px;
+			}
+			.acceptBtn{
+				display: inline-block;
+			}
+			.deleteBtn{
+				display: inline-block;
+			}
+			.centerText{
+				text-align: center;
+			}
+			.upload-preview{
+				min-height: 200px;
+				min-width: 200px;
+			}
+			.centerItem{
+				margin: 0 auto;
+			}
+		#censorDisplay{
+			color: orange;
+			margin-top: 50px;
+			padding: 15px;
+			height: 250px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+			overflow-y: scroll;
+		}
+		#censorForm{
+			color: orange;
+			margin-top: 50px;
+			padding: 15px;
+			height: 250px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+		}
+			#censorBtn{
+				border: 2px solid darkred;
+				background-color: red;
+				color: darkred;
+				font-family: 'Stardos Stencil';
+				font-weight: bold;
+				font-size: 16px;
+			}
+	
+			

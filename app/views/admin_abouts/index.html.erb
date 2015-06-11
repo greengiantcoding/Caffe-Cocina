@@ -1,0 +1,311 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<html>
+<head>
+	<title>Administration Dashboard</title>
+	
+	<style type="text/css">
+	body{
+	background-color: black;
+	color: orange;
+}
+		.pic3Box{
+			height: 400px;
+			border: 1px solid white;
+		}
+			.currentPicSix{
+				height: 250px;
+			}
+			.lineBreaker{
+				margin: 2px;
+				border-bottom: 1px solid white;
+			}
+			.positionTaker{
+				width: 50px;
+
+			}
+			.updateBtns{
+				width: 75px;
+			}
+			.formLabels{
+				padding-top: 4px;
+			}
+				.bios{
+					height: 575px;
+				}
+					#previewBox{
+						margin: 0 auto;
+						margin-top: 10px;
+						width: 200px;
+						height: 200px;
+						border: 1px solid white;
+					}
+					.allBios{
+						overflow-y: scroll; 
+					}
+						.bioLine{
+							border-bottom: 1px solid white;
+						}
+	</style>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			// Preview Image Before Uploading
+    		var preview = $(".upload-preview img");
+
+    		$(".file").change(function(event){
+		       	var input = $(event.currentTarget);
+		       	var file = input[0].files[0];
+		       	var reader = new FileReader();
+		       	reader.onload = function(e){
+		            image_base64 = e.target.result;
+		            preview.attr("src", image_base64);
+		        	preview.attr('width', '200px');
+           			preview.attr('height', '200px');
+		       	};
+       			reader.readAsDataURL(file);
+		    });
+		});
+	</script>
+</head>
+<% if session[:loggedIn] == true then %>
+<body>
+	<!-- menuColumn -->
+	<div class='col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0' id='leftColumn'>
+		
+			<a href='/admin_reviews' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_review'>Reviews (<%=@reviewCount%>)</div></a>
+			<a href='/admin_food' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_food'>Food</div></a>
+			<a href='/admin_drinks' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_drinks'>Drinks</div></a>
+			<a href='/admin_photos' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_photos'>Photos</div></a>
+			<a href='/admin_abouts' class='navLinkOn'><div class='menuList col-xs-12 menuText' id='menu_about'>About</div></a>
+			<a href='/landings' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_logout'>Log Out</div></a>
+	</div>
+	<!-- End menuColumn -->
+
+
+	<!-- Page Displays -->
+	<div class='col-md-9 col-xs-12' id='rightColumn'>
+		
+		<!-- Home Page Displays -->
+		<h1 class='centerText col-xs-12 fontFantasy'>Home Page</h1>
+
+			<!-- Display Welcome Message -->
+			<div class='col-xs-12 adminAbouts' id='welcomeMessage'>
+				<h3 class='centerText'>*Welcome Message*</h3>
+				<% @pageContent.each do |content| if content.label == 'welcome_msg' %> 
+				<form class='formAlign' action='admin_abouts/<%=content.id%>' method='PATCH'>
+					<input type='hidden' name='authenticity_token' value='<%form_authenticity_token%>'>
+					<input type='hidden' name='content_id' value='<%=content.id%>'>
+					<textarea name='message' class='textareaSpace'><%= content.message %></textarea>
+					<br>
+					<input type='submit' value='Update' class='updateBtns btn-success'>
+				</form> 
+				<% end %>
+				<% end %>
+			</div>
+			<!-- End Welcome Message -->
+
+			<!-- Display 3 Pics Front/Back -->
+			<div class='col-xs-12 adminAbouts'>
+				<h3 class='centerText'>*3 Picture Columns*</h3>
+				<h4 class='centerText'>(Front/Back)</h4>
+				
+				<% 	$idx = 0 %>
+				<%	$max = 6 %>
+				<%	while $idx < $max do %>
+					<div class='col-xs-4 pic3Box centerText'>
+						<h3 class='centerText'><%= @layoutTitles[$idx] %> </h3>
+						<div class='lineBreaker'></div>						
+						<% @picSix.each do |picture| %>
+							<% if picture.position == ($idx+1).to_s then%>
+								<div class='currentPicSix'>
+									<%= image_tag picture.avatar.url(:small) %>
+								</div>
+								<div class='lineBreaker'></div>
+								<h4 class='centerText'>New Photo Upload</h4>
+							<% end %>
+						<% end %>
+
+						<form action='/admin_photos/<%= ($idx+1) %>/edit' method='GET'>
+							<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+							<input type='text' name='newPhotoID'>
+							<input type='submit' value='Update'>
+						</form>
+					</div>
+					<% $idx += 1 %>
+				<% end %>
+			</div>
+			<!-- END Display 3 Pics Front/Back -->
+
+			<!-- Display Specials -->
+			<div class='col-xs-12 adminAbouts' id='dailySpecial'>
+				<h3 class='centerText'>*Specials*</h3>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+			</div>
+			<!-- End Specials -->
+
+			<!-- Display Frequent Hours -->
+			<div class='col-xs-12 adminAbouts'>
+				<div class='col-xs-12' class='adminAbouts' id='hours'>
+					<h3 class='centerText'>*Frequent Hours*</h3>
+				</div>
+			</div>
+			<!-- End Frequent Hours -->
+
+
+			<!-- Display Upcoming Hours Notice-->
+			<div class='col-xs-12 adminAbouts'>
+				<h3 class='centerText'>*Upcoming Hours Notice*</h3>
+			</div>
+			<!-- End Upcoming Hours Notice-->
+
+			<!-- Contact Page Displays -->
+			<h1 class='centerText col-xs-12 fontFantasy'>Contact Info</h1>
+
+				<!-- Contact Form -->
+				<div class='col-xs-6 col-xs-offset-3 adminAbouts'>
+					<form action='admin_abouts/1/edit' method='GET'>
+						<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+						<div class='col-xs-5' id='labeler'>
+							<p class='formLabels'>Phone:</p>
+							<p class='formLabels'>Email:</p>
+							<p class='formLabels'>Facebook:</p>
+							<p class='formLabels'>Address 1:</p>
+							<p class='formLabels'>Address 2:</p>
+						</div>
+						<div class='col-xs-7' id='former'>
+							<!-- Contact: Phone Number -->
+							<% @pageContent.each do |content| if content.label == 'phone_number' %> 
+								<p class='formInputs'><input type='text' name='phone_number' placeholder='<%=content.message%>' value='<%=content.message%>'></p>
+							<% end end %>
+							<!-- End Contact: Phone Number -->
+
+							<!-- Contact: Email -->
+							<% @pageContent.each do |content| if content.label == 'email' %>
+							<p class='formInputs'><input type='text' name='email' placeholder='<%=content.message%>' value='<%=content.message%>'></p>
+							<% end end %>
+							<!-- End Contact: Email -->
+
+							<!-- Contact: Facebook -->
+							<% @pageContent.each do |content| if content.label == 'facebook' %>
+							<p class='formInputs'><input type='text' name='facebook' placeholder='<%=content.message%>' value='<%=content.message%>'></p>
+							<% end end %>
+							<!-- End Contact: Facebook -->
+							
+							<!-- Contact: Address 1 -->
+							<% @pageContent.each do |content| if content.label == 'address1' %>
+							<p class='formInputs'><input type='text' name='address1' placeholder='<%=content.message%>' value='<%=content.message%>'></p>
+							<% end end %>
+							<!-- End Contact: Address 1 -->
+
+							<!-- Contact: Address 2 -->
+							<% @pageContent.each do |content| if content.label == 'address2' %>
+							<p class='formInputs'><input type='text' name='address2' placeholder='<%=content.message%>' value='<%=content.message%>'></p>
+							<% end end %>
+							<!-- End Contact: Address 2 -->
+
+
+						</div>
+						<input type='submit' class='updateBtns btn-success' value='Update'>
+					</form>
+				</div>
+				<!-- END Contact: Email -->
+
+				<h1 class='centerText col-xs-12 fontFantasy'>Staff Info</h1>
+
+				<!-- Display Staff Bios -->
+				<div class='col-xs-6 adminAbouts bios allBios centerText'> 
+					<h3 class='centerText'>*Current Staff Bios*</h3>
+					<% @staff.each do |member| %>
+						<h3 ><%= member.name %></h3>
+           				<div class='bioLine'>
+                			<h4><%= member.position %></h4>
+			                <div class='imageBuffer'><%= image_tag member.avatar.url(:medium) %></div>
+            			    <p><%= member.bio %></p>
+            			</div>
+					<% end %>
+				</div>
+
+				<div class='col-xs-6 adminAbouts bios'> 
+					<h3 class='centerText'>*New Staff Bio*</h3>		
+					<form class="form-horizontal" action='/staffs' method='POST' enctype="multipart/form-data">
+						<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+						<div class="form-group">
+					    	<label for="name" class="col-sm-4 control-label">Name:</label>
+					    	<div class="col-sm-7">
+					      		<input type="text" name='staff[name]' class="form-control" id="name" placeholder="Name">
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="position" class="col-sm-4 control-label">Position:</label>
+					    	<div class="col-sm-7">
+					      		<input type="text" name='staff[position]' class="form-control" id="position" placeholder="Position Title">
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="bio" class="col-sm-4 control-label">Personal Bio:</label>
+					    	<div class="col-sm-7">
+					      		<textarea name='staff[bio]' class="form-control" id="bio" placeholder="Enter something about the employee here..."></textarea>
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label for="avatar" class="col-sm-4 control-label">Picture:</label>
+					    	<div class="col-sm-7 upload-preview centerText">
+					      		<input type='file' name='staff[avatar]' class="file form-control" id="avatar">
+					      		<div id='previewBox'>
+					      			<img / id='filePreview'>
+					      		</div>
+					    	</div>
+					  	</div>
+				     	<input type="submit" class="updateBtns btn-success" value='Add Bio'>				    				  	
+					</form>
+					
+			
+				</div>
+				<!-- END Display Staff Bios -->
+
+				<!-- Display Edit Administration Settings Form -->
+				<div class='col-xs-6 col-xs-offset-3 adminAbouts'>
+					<h3 class='centerText'>*Edit Administration Settings*</h3>
+					<form action='/administrations/<%= @admin.id %>/edit' method='GET'>
+						<div class='col-xs-6' id='labeler2'>
+							<p class='formLabels'>Username:</p>
+							<p class='formLabels'>Old Password:</p>
+							<p class='formLabels'>New Password:</p>
+							<p class='formLabels'>Confirm New Password:</p>
+						</div>
+						<div class='col-xs-6' id='former2'>
+							<p class='formInputs'><input type='text' name='username' placeholder='<%= @admin.username %>' value='<%= @admin.username %>'></p>
+							<p class='formInputs'><input type='password' name='old_password' placeholder="Req'd for security edits"></p>
+							<p class='formInputs'><input type='password' name='new_password'></p>
+							<p class='formInputs'><input type='password' name='new_password_confirmation'></p>
+						</div>
+						<input type='submit' class='updateBtns btn-success' value='Update'>
+					</form>
+				</div>
+				<!-- End Display Edit Administration Settings Form-->
+
+
+
+	</div>
+	<!-- End Home Page Display -->	
+
+</body>
+</html>
+
+
+</body>
+<% end %>
+</html>

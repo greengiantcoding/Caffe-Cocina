@@ -1,0 +1,736 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<html>
+<head>
+	<title>Administration Dashboard</title>
+	
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+	
+			// Hide items on page load
+			$('#admin_about_message').show();
+			$('#lunchCategoryInput').hide();
+			$('#breakfastMenu').hide();
+			$('#lunchMenu').hide();
+			$('#treatsMenu').hide();
+			$('#treatForm').hide();
+
+
+			// Show/Hide Lunch Category Based On Selected Option 
+			// Clear/Insert default value when hidden
+			$("#category").change(function(){
+			  var id = $(this).find("option:selected").attr("id");
+
+			  switch (id){
+			    case "breakfastOption":
+			     	$('#lunchCategoryInput').hide();
+			     	$('#lunchCategory').val("null");
+			      	break;
+			    case "lunchOption":
+			    	$('#lunchCategoryInput').show();
+			    	$('#lunchCategory').val("");
+			    	break;
+			    case "treatsOption":
+			    	$('#lunchCategoryInput').hide();
+			    	$('#lunchCategory').val("null");
+			  }
+			});
+
+			// Show Breakfast-Lunch-Treats Current Menu Based On Menu Button
+			$('#breakfastBtn').click(function(){
+				$('#admin_about_message').hide();
+				$('#breakfastMenu').show();
+				$('#lunchMenu').hide();
+				$('#treatsMenu').hide();
+				$('#foodForm').show();
+				$('#treatForm').hide();
+			});
+			$('#lunchBtn').click(function(){
+				$('#admin_about_message').hide();
+				$('#breakfastMenu').hide();
+				$('#lunchMenu').show();
+				$('#treatsMenu').hide();
+				$('#foodForm').show();
+				$('#treatForm').hide();
+			});
+			$('#treatsBtn').click(function(){
+				$('#admin_about_message').hide();3
+				$('#breakfastMenu').hide();
+				$('#lunchMenu').hide();
+				$('#treatsMenu').show();
+				$('#foodForm').hide();
+				$('#treatForm').show();
+			});
+
+			// Preview Image Before Uploading
+    		var preview = $(".upload-preview img");
+
+    		$(".file").change(function(event){
+		       	var input = $(event.currentTarget);
+		       	var file = input[0].files[0];
+		       	var reader = new FileReader();
+		       	reader.onload = function(e){
+		            image_base64 = e.target.result;
+		            preview.attr("src", image_base64);
+		        	preview.attr('width', '300px');
+           			preview.attr('height', '300px');
+		       	};
+       			reader.readAsDataURL(file);
+		    });
+		});
+	</script>
+
+	<style type="text/css">
+	body{
+	background-color: black;
+	color: orange;
+}	
+		.editImagePreview{
+			margin-bottom: 5px;
+		}
+		.pricePush{
+			margin-left: 25px;
+		}
+		.warning{
+			color: red;
+		}
+			.menuBtn{
+				font-weight: bold;
+				border: 3px solid gray;
+				background-color: silver
+			}
+			.actionBtns{
+				width: 100px;
+			}
+				.deleteForm{
+					display: inline-block;
+				}
+			.modal-header{
+				padding: 10px;
+				height: 40px;
+			}
+				#messageMargin{
+					margin-top: 75px;
+				}
+				.itemImage{
+					margin-bottom: 10px;
+				}
+				.updateBtns{
+					width: 75px;
+				}
+				.orangeWrench{
+					background-color: orange;
+					color: white;
+				}
+				.redTrash{
+					background-color: red;
+					color: white;
+				}
+				.lunchEditFormImage{
+					margin-bottom: 10px;
+				}
+			
+
+	</style>
+</head>
+<% if session[:loggedIn] == true then %>
+<body>
+	<!-- menuColumn -->
+	<div class='col-md-2 col-xs-6 col-xs-offset-3 col-md-offset-0' id='leftColumn'>
+		
+			<a href='/admin_reviews' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_review'>Reviews (<%=@reviewCount%>)</div></a>
+			<a href='/admin_food' class='navLinkOn'><div class='menuList col-xs-12 menuText' id='menu_food'>Food</div></a>
+			<a href='/admin_drinks' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_drinks'>Drinks</div></a>
+			<a href='/admin_photos' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_photos'>Photos</div></a>
+			<a href='/admin_abouts' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_about'>About</div></a>
+			<a href='/landings' class='navLink'><div class='menuList col-xs-12 menuText menuShadow' id='menu_logout'>Log Out</div></a>
+	</div>
+	<!-- End menuColumn -->
+	
+	<div class='col-md-9 col-xs-12' id='rightColumn'>
+		
+		<!-- displayRow -->
+		<div class='row' id='displayRow'>
+
+			<!-- Display Current Food Items -->
+				<div class='col-xs-12' id='foodDisplay'>
+					<!-- Menu Preview/Edit Start Message -->
+					<div class='centerText' id='admin_about_message'>
+						<h2 id='messageMargin'>Select a menu button below to preview/edit menu items.</h2>
+					</div>
+					<!-- Breakfast Menu -->
+					<div id='breakfastMenu'>
+						<table class='table table-hover'>
+							<thead>
+								<tr>
+									<th class='centerText'>Image</th>
+									<th class='centerText'>Item Title</th>
+									<th class='centerText'>Description</th>
+									<th class='centerText'>Price Label</th>
+									<th class='centerText'>Price</th>
+									<th class='centerText'>Alt Price Label</th>
+									<th class='centerText'>Alt Price</th>
+									<th class='centerText'>Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% @foodItems.each do |item| if item.category == 'Breakfast' then %>
+									<tr>
+										<td class='centerText'>
+											<% if item.image_file_name != nil then  %>
+					 							<button data-toggle="modal" data-target="#breakfastModal<%=item.id%>"><i class="fa fa-camera-retro"></i></button>
+
+					 							<!-- Breakfast Image Modal -->
+													<div class="modal fade" id="breakfastModal<%=item.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+														<div class="modal-dialog">
+													    	<div class="modal-content">
+													      		<div class="modal-header">
+													       			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													       			<h4 class="modal-title" id="myModalLabel"><%=item.title%></h4>
+													     		</div>
+													    		<div class="modal-body">
+													        		<%= image_tag item.image.url(:medium) %>
+													      		</div>
+													      		<div class="modal-footer"> 
+												       				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													      		</div>
+													    	</div>
+
+														</div>
+													</div>
+													<!-- END Breakfast Image Modal -->
+											<% else %>
+												<p class='warning centerText'>No Image</p>
+											<% end %>
+										</td>
+										<td class='centerText'><%=item.title%></td>
+										<td class='centerText'><%=item.description%></td>
+										<td class='centerText'><%=item.price_label%></td>
+										<td class='centerText'>$<%=number_with_precision(item.price, precision:2)%></td>
+										<% if item.alt_price_label != 'null' && item.alt_price > 0 then %>
+											<td class='centerText'><%=item.alt_price_label%></td>
+											<td class='centerText'>$<%=number_with_precision(item.alt_price, precision:2)%></td>
+										<% end %>
+										<td class='actionBtns  centerText'>
+											<button data-toggle='modal' data-target='#breakfast<%=item.id%>' class='orangeWrench'><i class="fa fa-wrench "></i></button>
+												<div class='modal fade' id='breakfast<%=item.id%>' tabindex='-1' role='dialog' aria-labelledby='breakfastModalLabel<%=item.id%>' aria-hidden='true'>
+													<div class='modal-dialog '>
+														<div class='modal-content'>
+															<div class='modal-header'>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															</div>
+															<div class='modal-body'>
+																
+																<div class='itemImage'>
+																	<%= image_tag item.image.url(:medium) %>
+																</div>
+
+																<form class='form-horizontal' action='/admin_food/<%=item.id%>/edit' method='PATCH' enctype="multipart/form-data">
+																	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+					 												
+																	<div class="form-group">
+																		<label for='foodCategory' class='col-sm-2 col-sm-offset-1 control-label'>Category:</label>
+																		<div class='col-sm-6'>
+																			<select class='form-control' name='food[category]' id='foodCategory'>
+																				<option value='Breakfast' selected='selected'>Breakfast</option>
+																				<option value='Lunch'>Lunch</option>
+																			</select>
+																		</div>
+																	</div>
+
+																 	<div class="form-group">
+																    	<label for="foodTitle" class="col-sm-2 col-sm-offset-1 control-label">Title:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='food[title]' placeholder='<%=item.title%>' value='<%=item.title%>' id='foodTitle'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																  		<label for='foodDescription' class='col-sm-2 col-sm-offset-1 control-label'>Description</label>
+																  		<div class='col-sm-6'>
+																  			<textarea name='food[description]' class='form-control' id='treatDescription'><%=item.description%></textarea>
+																  		</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="foodPriceLabel" class="col-sm-2 col-sm-offset-1 control-label">Price Label:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='food[price_label]' placeholder='<%=item.price_label%>' value='<%=item.price_label%>' id='foodPriceLabel'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="foodPrice" class="col-sm-2 col-sm-offset-1 control-label">Price:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='number' class='form-control' name='food[price]' step='0.01' min='0.01' placeholder='<%=number_with_precision(item.price, precision:2)%>' value='<%=number_with_precision(item.price, precision:2)%>' id='foodPrice'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="foodAltPriceLabel" class="col-sm-2 col-sm-offset-1 control-label">Alt Price Label:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='food[alt_price_label]' placeholder='<%=item.alt_price_label%>' value='<%=item.alt_price_label%>' id='foodAltPriceLabel'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="altFoodPrice" class="col-sm-2 col-sm-offset-1 control-label">Alternate Price:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='number' class='form-control' name='food[alt_price]' step='0.01' min='0.00' placeholder='<%=number_with_precision(item.alt_price, precision:2)%>' value='<%=number_with_precision(item.alt_price, precision:2)%>' id='altFoodPrice'>
+																    	</div>
+																  	</div>
+
+														       		<button type="submit" class="btn btn-default">Save Edits</button>
+
+																</form>
+															</div>
+														</div>
+													</div> 
+												</div>
+
+											<form action='admin_food/<%=item.id%>' method='DELETE' class='deleteForm'>
+												<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+												<button type='submit' class='redTrash'><i class="fa fa-trash-o"></i></button>
+											</form>
+										</td>
+									</tr>
+								<% end end %>
+							</tbody>
+						</table>
+					</div>
+					<!-- END Breakfast Menu -->
+
+					<!-- Lunch Menu -->
+					<div id='lunchMenu'>
+						<div id='lunchMenu'>
+							<table class='table table-hover'>
+								<thead>
+									<tr>
+										<th class='centerText'>Image</th>
+										<th class='centerText'>Lunch Category</th>
+										<th class='centerText'>Item Title</th>
+										<th class='centerText'>Description</th>
+										<th class='centerText'>Price Label</th>
+										<th class='centerText'>Price</th>
+										<th class='centerText'>Alt Price Label</th>
+										<th class='centerText'>Alt Price</th>
+										<th class='centerText'>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% @foodItems.each do |item| if item.category == 'Lunch' then %>
+										<tr>
+											<td class='centerText'>
+												<% if item.image_file_name != nil then  %>
+													<button><i class="fa fa-camera-retro" data-toggle='modal' data-target='#lunch<%=item.id%>'></i></button>	
+
+													<!-- Lunch Image Modal -->
+													<div class="modal fade" id="lunch<%=item.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">
+													      <div class="modal-header">
+													        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+													        <h4 class="modal-title" id="myModalLabel"><%=item.title%></h4>
+													      </div>
+													      <div class="modal-body">
+													        <%= image_tag item.image.url(:medium) %>
+													      </div>
+													      <div class="modal-footer">
+													        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													      </div>
+													    </div>
+													  </div>
+													</div>
+													<!-- END Lunch Image Modal -->		
+
+												<% else %>
+													<p class='warning centerText'>No Image</p>
+												<% end %>
+											</td>
+											<td class='centerText'><%=item.lunch_category%></td>
+											<td class='centerText'><%=item.title%></td>
+											<td class='centerText'><%=item.description%></td>
+											<td class='centerText'><%=item.price_label%></td>
+											<td class='centerText'>$<%=number_with_precision(item.price, precision:2)%></td>
+											<td class='centerText'><%=item.alt_price_label%></td>
+											<td class='centerText'>$<%=number_with_precision(item.alt_price, precision:2)%></td>
+											<td class='centerText actionBtns '>
+												<button class='orangeWrench' data-toggle='modal' data-target='#lunchmenu<%=item.id%>'><i class="fa fa-wrench"></i></button>
+													<!-- Edit Lunch Item Menu -->
+														<div class="modal fade" id="lunchmenu<%=item.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+														  <div class="modal-dialog">
+														    <div class="modal-content">
+														      <div class="modal-header">
+														        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+														        <h4 class="modal-title" id="myModalLabel"><%= item.title %></h4>
+														      </div>
+														      <div class="modal-body">
+														       		<div class='lunchEditFormImage'>
+														       			<% if item.image_file_name != nil then %>
+														       				<%= image_tag item.image.url(:medium) %>
+														       			<% else %>
+														       				<p class='centerText'>No Image Uploaded</p>
+														       			<% end %>
+														       		</div>
+														       	<form class='form-horizontal' action='/lunchEdit' method='PATCH'>
+														       		<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+														       		<input type='hidden' name='lunch_id' value='<%=item.id%>'>
+
+														       		<div class="form-group">
+																    	<label for="lunchCategoryEdit" class="col-sm-3 col-sm-offset-1 control-label">Lunch Category:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='lunch[lunch_category]' placeholder='<%=item.lunch_category%>' value='<%=item.lunch_category%>' id='lunchCategoryEdit'>
+																    	</div>
+																  	</div>
+																  	
+																  	<div class="form-group">
+																    	<label for="lunchTitleEdit" class="col-sm-3 col-sm-offset-1 control-label">Title:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='lunch[title]' placeholder='<%=item.title%>' value='<%=item.title%>' id='lunchTitleEdit'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="lunchDescriptionEdit" class="col-sm-3 col-sm-offset-1 control-label">Description:</label>
+																    	<div class="col-sm-6">
+																    	 	<textarea class='form-control' name='lunch[description]' placeholder='<%=item.description%>' id='lunchDescriptionEdit'><%=item.description%></textarea>
+																    	</div>
+																  	</div>
+																  																	  	
+																  	<div class="form-group">
+																    	<label for="lunchPriceLabelEdit" class="col-sm-3 col-sm-offset-1 control-label">Price Label:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='lunch[price_label]' placeholder='<%=item.price_label%>' value='<%=item.price_label%>' id='lunchPriceLabelEdit'>
+																    	</div>
+																  	</div>
+
+																  	<div class='form-group'>
+																		<label for='price' class='col-sm-3 col-sm-offset-1 control-label'>Price:</label>
+																		<div class="col-sm-4">
+											   								<label class="sr-only" for="price" class='pricePush'>Amount (in dollars)</label>
+																	    	<div class="input-group">
+																	      		<div class="input-group-addon">$</div>
+																	      		<input type="number" class="form-control" name='lunch[price]' min='0.01' step='0.01' id="price" placeholder="Amount" value='<%=item.price%>'>
+																	    	</div>
+																		</div>
+																	</div>
+
+																	<div class="form-group">
+																    	<label for="lunchAltPriceLabelEdit" class="col-sm-3 col-sm-offset-1 control-label">Alt Price Label:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='lunch[alt_price_label]' placeholder='<%=item.alt_price_label%>' value='<%=item.alt_price_label%>' id='lunchAltPriceLabelEdit'>
+																    	</div>
+																  	</div>
+
+																  	<div class='form-group'>
+																		<label for='alt_price' class='col-sm-3 col-sm-offset-1 control-label'>Alt Price:</label>
+																		<div class="col-sm-4">
+											   								<label class="sr-only" for="alt_price" class='pricePush'>Amount (in dollars)</label>
+																	    	<div class="input-group">
+																	      		<div class="input-group-addon">$</div>
+																	      		<input type="number" class="form-control" name='lunch[alt_price]' min='0.01' step='0.01' id="alt_price" placeholder="Amount" value='<%=item.alt_price%>'>
+																	    	</div>
+																		</div>
+																	</div>
+																	<div class='form-group centerText'>
+																		<input type='submit' class='btn-success' value='Update'>
+																	</div>
+														       	</form>
+														      </div>
+														    </div>
+														  </div>
+														</div>
+													<!-- END Edit Lunch Item Menu -->
+													<form action='/deleteLunch' method='DELETE' class='deleteForm'>
+														<input type='hidden' name='lunch_id' value='<%=item.id%>'>
+														<button class='redTrash'><i class="fa fa-trash-o"></i></button>
+													</form>
+
+											</td>
+										</tr>
+									<% end end %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- END Lunch Menu -->
+
+					<!-- Treats Menu -->
+					<div id='treatsMenu'>
+						<table class='table table-hover'>
+							<thead>
+								<th class='centerText'>Image</th>
+								<th class='centerText'>Title</th>
+								<th class='centerText'>Price</th>
+								<th class='centerText'>Description</th>
+								<th class='centerText actionBtns '>Actions</th>
+							</thead>
+							<tbody>
+								<% @treatItems.each do |item| %>
+									<tr>
+										<td class='centerText'>
+											<% if item.image_file_name != nil then %>
+												<button><i class="fa fa-camera-retro" data-toggle='modal' data-target='#treat<%=item.id%>'></i></button>	
+											
+												<!-- Treat Image Modal -->
+												<div class="modal fade" id="treat<%=item.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												  <div class="modal-dialog">
+												    <div class="modal-content">
+												      <div class="modal-header">
+												        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												        <h4 class="modal-title" id="myModalLabel"><%=item.title%></h4>
+												      </div>
+												      <div class="modal-body">
+												        <%= image_tag item.image.url(:medium) %>
+												      </div>
+												      <div class="modal-footer">
+												        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												      </div>
+												    </div>
+												  </div>
+												</div>
+												<!-- END Treat Image Modal -->
+
+											<% else %>
+												<p class='warning centerText'>No Image</p>	
+											<% end %>
+										</td>
+										<td class='centerText'><%=item.title%></td>
+										<td class='centerText'>$<%=number_with_precision(item.price, precision:2)%></td>
+										<td class='centerText'><%=item.description%></td>
+										<td class='centerText'>
+											<td class='actionBtns centerText'>
+											<button data-toggle='modal' data-target='#breakfast<%=item.id%>' class='orangeWrench'><i class="fa fa-wrench"></i></button>
+												<div class='modal fade' id='breakfast<%=item.id%>' tabindex='-1' role='dialog' aria-labelledby='breakfastModalLabel<%=item.id%>' aria-hidden='true'>
+													<div class='modal-dialog '>
+														<div class='modal-content'>
+															<div class='modal-header'>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															</div>
+															<div class='modal-body'>
+																
+																<form class='form-horizontal' action='/admin_treat_edit' method='GET'>
+																	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+					 												<input type='hidden' name='treat_id' value='<%= item.id %>'>
+
+																 	<div class="form-group">
+																    	<label for="treatTitle" class="col-sm-2 col-sm-offset-1 control-label">Title:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='text' class='form-control' name='treat[title]' placeholder='<%=item.title%>' value='<%=item.title%>' id='treatTitle'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																    	<label for="treatPrice" class="col-sm-2 col-sm-offset-1 control-label">Price:</label>
+																    	<div class="col-sm-6">
+																    	 	<input type='integer' class='form-control' name='treat[price]' step='0.01' min='0.01' placeholder='<%=number_with_precision(item.price, precision:2)%>' value='<%=number_with_precision(item.price, precision:2)%>' id='treatPrice'>
+																    	</div>
+																  	</div>
+
+																  	<div class="form-group">
+																  		<label for='treatDescription' class='col-sm-2 col-sm-offset-1 control-label'>Description</label>
+																  		<div class='col-sm-6'>
+																  			<textarea name='treat[description]' class='form-control' id='treatDescription'><%=item.description%></textarea>
+																  		</div>
+																  	</div>
+
+																  	<div class='editImagePreview'>
+																  		<%= image_tag item.image.url(:medium) %>
+																  	</div>
+																	
+																	<input type='submit' class='btn-success' value='Update'>
+														        
+																</form>
+															</div>
+														</div>
+													</div> 
+												</div>
+											<form action='/admin_treat' method='GET' class='deleteForm'>
+												<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+												<input type='hidden' name='treat[id]' value='<%=item.id%>'>
+												<button type='submit' class='redTrash'><i class="fa fa-trash-o"></i></button>
+											</form>
+										</td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+					<!-- END Treats Menu -->
+
+
+				</div>
+			<!-- End Display Current Food Items -->
+		</div>
+		<!-- End displayRow -->
+		
+		<!-- Select Menu Display Buttons -->
+		<div class='row' id='menuButtons'>
+			<p class='centerText'>Select A Menu To Display/Edit/Add Items</p>
+			<div class='centerText'>
+				<button class='btn btn-sm menuBtn' id='breakfastBtn'>Breakfast</button>
+				<button class='btn btn-sm menuBtn' id='lunchBtn'>Lunch</button>
+				<button class='btn btn-sm menuBtn' id='treatsBtn'>Treats</button>
+			</div>
+		</div>
+		<!-- END Select Menu Display Buttons -->
+
+		<!-- formRow -->
+		<div class='row' id='formRow'>
+				<!-- Food Form -->
+				<div class='col-xs-12' id='foodForm'>
+					<h3 class='centerText formTitle'>Add A New Food Item To The Menu</h3>
+					<form class="form-horizontal" action='/admin_food' method='POST' enctype="multipart/form-data">
+					 	
+					 	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+					 	
+					 	<div class="form-group">
+					    	<label for="category" class="col-sm-2 col-sm-offset-1 control-label">Category:</label>
+					    	<div class="col-sm-6">
+					    	 	<select class="form-control" id="category" name='food[category]' placeholder="Breakfast/Lunch/Snack">
+					    	 		<option id='breakfastOption'>Breakfast</option>
+					    	 		<option id='lunchOption'>Lunch</option>
+					    	 	</select>
+					    	</div>
+					  	</div>
+					 
+					 	<div class="form-group" id='lunchCategoryInput'>
+					    	<label for="lunchCategory" class="col-sm-2 col-sm-offset-1 control-label">Lunch Category:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="lunchCategory" name='food[lunch_category]' placeholder="Salad/Burger/Major Categories" value='null'>
+					    	</div>
+					  	</div>
+ 	
+
+					  	<div class="form-group">
+					    	<label for="title" class="col-sm-2 col-sm-offset-1 control-label">Menu Item:</label>
+					    	<div class="col-sm-6">
+					    		<input type="text" class="form-control" id="title" name='food[title]' placeholder="Texas Pit Burger/Chicken ChopChop/...">
+					    	</div>
+					  	</div>
+
+					  	<div class='form-group'>
+					  		<label for='description' class='col-sm-2 col-sm-offset-1 control-label'>Description:</label>
+					  		<div class='col-sm-6'>
+					  			<input type='text' class='form-control' id='description' name='food[description]' placeholder='Description of drink item...'>
+					  		</div>
+					  	</div>
+
+					  	<div class='col-xs-8 col-xs-offset-2'>
+					  		<p class='centerText warning'>If No Alternate Price Enter ("null" => Alt Label Price) AND ("0" => Alt Price)</p>
+					  	</div>
+
+					  	<div class='form-group'>
+					  		<label for='price_label:' class='col-sm-2 col-sm-offset-1 control-label'>Price Label:</label>
+					  		<div class='col-sm-2'>
+					  			<input type='text' class='form-control' id='price_label' name='food[price_label]' placeholder='Full/Bowl/Large'>
+					  		</div>
+					  
+					  		<label for='alt_price_label:' class='col-sm-2  control-label'>Alt Price Label:</label>
+					  		<div class='col-sm-2'>
+					  			<input type='text' class='form-control' id='alt_price_label' name='food[alt_price_label]' placeholder='Half/Cup/Small'>
+					  		</div>
+					  	</div>
+
+						<div class='form-group'>
+							<label for='price' class='col-sm-2 col-sm-offset-1 control-label'>Price:</label>
+							<div class="col-sm-2">
+   								<label class="sr-only" for="price" class='pricePush'>Amount (in dollars)</label>
+						    	<div class="input-group">
+						      		<div class="input-group-addon">$</div>
+						      		<input type="number" class="form-control" name='food[price]' min='0.01' step='0.01' id="price" placeholder="Amount">
+						    	</div>
+							</div>
+					
+							<label for='altPrice' class='col-sm-2 control-label'>Alternate Price:</label>
+							<div class="col-sm-2">
+   								<label class="sr-only" for="alt_price" class='pricePush'>Amount (in dollars)</label>
+						    	<div class="input-group">
+						      		<div class="input-group-addon">$</div>
+						      		<input type="number" class="form-control" name='food[alt_price]' min='0.00' step='0.01' id="alt_price" placeholder="Amount">
+						    	</div>
+							</div>
+						</div>
+
+						<div class='form-group'>
+							<label for='image' class='col-sm-2 col-sm-offset-1 control-label'>Picture:</label>
+							<div class="upload-preview col-sm-6">
+	    						<img />
+								<input type='file' name='food[image]' class='file' id='image'>
+							</div>
+						</div>
+
+
+					  	<div class="form-group">
+					    	<div class="col-sm-offset-5 col-sm-2">
+					      		<button type="submit" class="btn btn-default">Add To Menu</button>
+					   		</div>
+					  	</div>
+					
+
+					</form>
+				</div>
+			<!-- End Food Form -->
+
+			<!-- Treat Form -->
+			<div class='col-xs-12' id='treatForm'>
+				<h3 class='centerText formTitle'>Add A New Treat To The Menu</h3>
+					<form class="form-horizontal" action='/treats/new' method='POST' enctype="multipart/form-data">
+			
+					 	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+					 	
+					 	<div class="form-group">
+					    	<label for="treatTitle" class="col-sm-2 col-sm-offset-1 control-label">Title:</label>
+					    	<div class="col-sm-6">
+					    	 	<input type='text' class="form-control" id="treatTitle" name='treat[title]' placeholder="Lemon Bar, BonBons, etc">	
+					    	</div>
+					  	</div>
+
+					  	
+					  	<div class='form-group'>
+							<label for='treatPrice' class='col-sm-2 col-sm-offset-1 control-label'>Price:</label>
+							<div class="col-sm-2">
+   								<label class="sr-only" for="treatPrice" class='pricePush'>Amount (in dollars)</label>
+						    	<div class="input-group">
+						      		<div class="input-group-addon">$</div>
+						      		<input type="number" class="form-control" name='treat[price]' min='0.01' step='0.01' id="treatPrice" placeholder="Amount">
+						    	</div>
+							</div>
+					  	</div>
+
+					  	<div class="form-group">
+					    	<label for="treatDescription" class="col-sm-2 col-sm-offset-1 control-label">Description:</label>
+					    	<div class="col-sm-6">
+					    	 	<textarea class="form-control" id="treatDescription" name='treat[description]' placeholder="Description NOT Required"></textarea>
+					    	</div>
+					  	</div>
+
+					  	<div class='form-group'>
+							<label for='treatImage' class='col-sm-2 col-sm-offset-1 control-label'>Picture:</label>
+							<div class="upload-preview col-sm-6">
+	    						<img />
+								<input type='file' name='treat[image]' class='file' id='treatImage'>
+							</div>
+						</div>
+
+					  	<input type='submit' value='Add Treat'>
+					</form>
+			</div>
+			<!-- END Treat Form -->
+
+		</div>
+		<!-- End formRow -->
+	</div>
+
+</body>
+<% end %>
+</html>
+
+
+</body>
+</html>

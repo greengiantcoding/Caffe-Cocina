@@ -1,0 +1,14 @@
+<html>
+<head>
+	<title>Cafe Cocina Reviews</title>
+</head>
+<body>
+
+<form action='/reviews/create' method='post' enctype="multipart/form-data"> 
+	<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+	<input type='file' name='picture'>
+	<input type='submit' class='btn-submit'>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+module AdminFoodHelper
+end

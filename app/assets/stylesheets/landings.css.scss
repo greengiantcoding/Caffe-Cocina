@@ -1,0 +1,267 @@
+// Place all the styles related to the Landings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/* AVAILABLE FONTS 
+	font-family: 'Montserrat', sans-serif;
+	font-family: 'Lato', sans-serif;
+	font-family: 'Anton', sans-serif;
+	font-family: 'PT Sans Caption', sans-serif;
+	font-family: 'Patua One', cursive;
+*/
+
+/*	NAVBAR STYLING	*/
+
+.navbarHeader{
+	background-image: url('/assets/stump_pattern_many_1300x827.jpg');
+	min-height: 150px;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+	.navbarLogo{
+		background-image: url('/assets/logo_orange.png');
+		height: 125px;
+		width: 97px;
+	}
+		.navbarSpacer{
+			padding-left: 25px;
+			margin-top: 40px;
+		}
+
+		.navLinkBack{
+			padding-top: 20px;
+			opacity: 0.85;
+			min-height: 50px;
+		}
+		.navLinks{
+			margin-left: 2px;
+			margin-right: 2px;
+			margin-top: 20px;
+			padding-top: 20px;
+			border-radius: 50%;
+			height: 70px;
+			width: 70px;
+			text-decoration: none;
+			text-align: center;
+			display: inline-block;
+			font-size: 18px;
+		}
+		.navLinksDropdown{
+			margin: 0 auto;
+			background-color: rgb(197,112,4);
+		}
+			.navLinksDropdownColor{
+				color: black;
+			}
+				.currentDropdown{
+					font-weight: bold;		
+				}
+
+			.navLinkOff{
+				background-color: black;
+			}
+			.navLinkOn{
+				background-color: rgb(197,112,4);
+			}
+			.navLinkColorOn{
+				height: 125px;
+				color: black;
+			}
+			.navLinkColorOff{
+				height: 125px;
+				color: rgb(197,112,4);
+			}
+
+			.listLinkBack{
+				border-radius: 25px;
+				background-color: black;
+				font-weight: bold;
+			}
+				.linkColor{
+					color: rgb(197,112,4);
+				}
+			.listLinkBackOn{
+				border-radius: 25px;
+				background-color: rgb(197,112,4);
+				font-weight: bold;
+			}
+
+				.listLinkColor{
+					text-decoration: none;
+					color: rgb(197,112,4);
+					background-color: none;
+					font-size: 20px;
+					padding: 2px;
+					border-radius: 2px;
+				}
+				.listLinkColorOn{
+					text-decoration: none;
+					color: black;
+					background-color: transparent;
+					font-size: 20px;
+					padding: 2px;
+					border-radius: 2px;
+				}
+				.linkColorOn{
+					color: black;
+				}
+
+
+
+			.centerCart{
+				
+				text-align: center;
+				margin-left: 15px;
+				background-color: black;
+				
+				
+				color: red;
+			}
+				
+	.toggleBox{
+		width: 40px;
+		height: 40px;
+		background-color: orange;
+	}
+
+/*	LANDING PAGE INTRO PHRASE */
+
+#landingPhrase{
+	color: white;
+	text-align: center;
+}
+	#landingPhraseText{
+		font-family: 'Montserrat', sans-serif;
+		font-size: 38px;
+	}
+
+
+/*	LANDING PAGE BODY STYLING	*/
+
+.landingBody{
+	font-family: 'Lato', sans-serif;
+	min-height: 500px;	
+	padding: 25px;
+}
+	.pictureColumns{
+		min-height: 400px;
+		padding: 25px;
+	}
+		#leftPictureColumn{
+		padding: 5px;
+		}
+		#middlePictureColumn{
+			padding: 5px;
+		}
+		#rightPictureColumn{
+			padding: 5px;
+		}
+			.pictureBox{
+				height: 450px;
+				width: 255px;
+			}
+			.pictureBoxBack{
+				background-color: purple;
+				height: 450px;
+				width: 250px;
+			}
+				#leftBox{
+					/*background-image: url('/assets/pic3_coffee.jpg');*/
+					background-size: cover;
+				}
+				#leftBoxBack{
+					/*background-image: url('/assets/pic3_coffee2.jpg');*/
+					background-size: cover;
+				}
+				#middleBox{
+					margin: 0 auto;
+					/*background-image: url('/assets/pic3_food.jpg');*/
+					background-size: cover;
+
+				}
+				#middleBoxBack{
+					margin: 0 auto;
+					/*background-image: url('/assets/pic3_food2.jpg');*/
+					background-size: cover;
+				}
+				#rightBox{
+					/*background-image: url('/assets/pic3_shots.jpg');*/
+					background-size: cover;
+				}
+				#rightBoxBack{
+					/*background-image: url('/assets/pic3_coffee.jpg');*/
+					background-size: cover;
+				}
+		div.pictureBoxBack:hover {
+		    transition: transform 1s ease;
+		    -ms-transform: rotate(360deg);
+		    -webkit-transform: rotate(360deg);
+		    transform: rotate(360deg);
+		}
+
+
+/* LANDING PAGE FOOTER */
+
+.landingFooter{
+	margin-top: 700px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	height: 75px;
+	width: 100%;
+	border: 2px solid gray;
+}
+
+/* GENERAL STYLiNG */
+
+label{
+	width: 100px;
+	text-align: right;
+}
+.centerItem{
+		margin: 0 auto;
+	}
+.bordered{
+	border: 1px dashed black;
+}
+.underliner{
+	border-bottom: 1px solid black;
+}
+
+
+/*	BODY BACKGROUNDS	*/
+.backboardBody{
+	background-image: url('/assets/orange_wall.jpg');
+	background-size: cover;
+	min-height: 500px;
+}
+
+.backboard{
+	min-height: 500px;
+	padding-bottom: 50px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+	.fillOut{
+	height: 80%;
+}
+
+	/* Blackboards */
+
+	.blackboard{
+		background-image: url('/assets/blackboard_bg.jpg');
+		border-radius: 10px;
+		margin-left: 15px;
+	}
+
+
+/* FOOTER BACKGROUNDS */
+
+.footerboard{
+	background-image: url('/assets/board_and_cloth.jpg');
+	height: 150px;
+	padding-top: 15px;
+	/*position: fixed;*/
+    bottom: 0;
+    width: 100%;
+}

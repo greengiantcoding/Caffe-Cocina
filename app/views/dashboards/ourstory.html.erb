@@ -1,0 +1,165 @@
+<html>
+<head>
+	<title></title>
+  <script type="text/javascript">
+    $(function() {
+        $( "#accordion" ).accordion();
+    });
+  </script>
+</head>
+<body>
+
+<html>
+<head>
+	<title>Merchandise</title>
+  <style type="text/css">
+    #instaFeedHeader{
+      margin-top: 50px;
+      margin-left: 25%;
+      color: black;
+    }
+    #instaFeed{
+      margin: 0 auto;
+      max-width: 500px;
+      max-height: 500px;
+    }
+    iframe{
+      margin-top: 20px;
+    }
+    .bodyContent{
+      padding: 10px;
+      margin-top: 50px;
+      color: orange;
+      background-color: black;
+      border: 2px solid white;
+      border-radius: 5px;
+      box-shadow: 10px 10px 10px black;
+    }
+    #zokacoffee{
+      margin: 0 auto;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-image: url('/assets/zokacoffee.png');
+      height: 32px;
+      width: 300px;
+    }
+    #staffAccordion{
+      min-height: 300px;
+      margin-bottom: 50px;
+    }
+    .staffDiv{
+      padding: 10px;
+      background-color: black;
+      color: orange;
+    }
+      .imageBuffer{
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      
+  </style>
+
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(function(){
+        $('#accordion').accordion({ header: "h3", collapsible: true, active: false });
+      })
+    });
+  </script>
+</head>
+
+<body class='backboardBody'>
+
+
+  <!-- HEADER/NAVBAR -->
+  <div class='col-xs-12 navbarHeader navbar-default'>
+    
+    <div class='col-xs-2 navbarLogo' data-toggle='collapse' data-target='#theList'>
+    </div>
+
+  
+    
+    <div class='col-xs-5 col-xs-offset-1 col-lg-offset-2 navbarLink navbarBack collapse navbar-collapse' id='theList'>
+      <ul class='centerItem listItems'>
+        <li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/landings'>Home</a></li>
+        
+        <li class='dropdown navLinks navLinkBack navLinkOn'>
+          <a href="#" class='dropdown-toggle listLinkColorOn' data-toggle='dropdown' role='button' aria-expanded='false'>About</span><span class="caret"></span></a>
+          <ul class='dropdown-menu' role='list'>
+            <li class='navLinksDropdown '><a class='navLinksDropdownColorOn' href='/ourstory'><span class='currentDropdown'>Our Story <i class="fa fa-coffee"></i></span></a></li>
+            <li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/photo_albums'>Photos</a></li>
+          </ul>
+        </li>
+
+        <li class='dropdown navLinks navLinkBack navLinkOff'>
+          <a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>Menu<span class="caret"></span></a>
+          <ul class='dropdown-menu' role='list'>
+            <li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/menus'>Caffe Menu</a></li>
+            <li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/catering'>Catering</a></li>
+          </ul>
+        </li>
+
+        <li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/events'>Events</a></li>
+        <li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/contacts'>Contact</a></li>
+
+        <li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/reviews'>Reviews</a></li>
+        <li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/merchandise'>Store</a></li>
+      </ul>
+    </div>
+    <button class='pull-right toggleBox collapsed navbar-toggle navbar-collapse' data-toggle='collapse' data-target='#theList'>
+        <span class="fa fa-bars fa-lg"></span>
+    </button>
+  </div>
+  <!-- END HEADER/NAVBAR -->
+
+  <!-- Content Section -->
+
+    <div class='col-xs-12 col-md-5 col-md-offset-1'>
+      <!-- About Caffe Cocina -->
+      <div class='col-xs-12 bodyContent'>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Caffe Cocina is a great local coffehouse located on Finn Hill in Poulsbo. Fast drive-thru service as well as indoor and patio seating. Caffe Cocina carries ZOKA's delicious organic drip coffee, espresso and loose-leaf tea served with amazingly fresh pasteries for your morning commute. For your convienience , you can call and place your order in advance or park behind the caffe. 
+        </p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Come inside for our FREE WIFI and visit with our friendly staff, including our chef! Lunch is served from 11-4 M-F with homemade family recipes including daily-made soups, cold/hot sandwiches, salads, cut-to-order french fries/onion rings and much more! Daily Lunch Specials! Enjoy your meal with an ice cold beer or a glass of wine/champagne. 
+        </p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          Come and check out Poulsbo's "Hidden Treasures!"
+        </p>
+      </div>
+      <!-- END About Caffe Cocina -->
+
+      <!-- Zoka Baristas -->
+      <div class='col-xs-12 bodyContent'>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          All of out Baristas are professionally trained through Zoka Coffee Roasters and Tea Company!
+        </p>
+        <a href="http://www.zokacoffee.com/"><div id='zokacoffee'></div></a>        
+      </div>
+      <!-- END Zoka Baristas -->
+
+     
+    </div>
+    
+    <!-- Instagram Feed -->
+    <div class='col-xs-12 col-md-5 col-md-offset-1'>
+      <h3 id='instaFeedHeader'>Instagram Feed</h3>
+      <div id='instaFeed'>
+        <!-- SnapWidget -->
+        <iframe src="http://snapwidget.com/sl/?u=Y2FmZmVfY29jaW5hfGlufDQwMHwzfDN8fHllc3w1fG5vbmV8b25TdGFydHx5ZXN8bm8=&ve=080615" title="Instagram Widget" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:500px; height:500px"></iframe>
+      </div>
+    <!-- END Instagram Feed -->
+
+  <!-- END Content Section -->
+</body>
+
+</html>
+
+
+</body>
+</html>

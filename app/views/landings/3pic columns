@@ -1,0 +1,43 @@
+<!-- Three Picture Columns -->
+			<div class='row' id='pictureRow'>
+				<!-- Left Column -->
+					<div class='col-xs-6 col-sm-4 pictureColumns' id='leftPictureColumn'>
+						<% @picSix.each do |pic| if pic.position == '1' then %>
+							<div class='pictureBox pull-right' id='leftBox' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+						<% @picSix.each do |pic| if pic.position == '4' then %>
+							<div class='pictureBoxBack pull-right' id='leftBoxBack' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+					</div>
+				<!-- END Left Column -->
+
+				<!-- Middle Column -->
+					<div class='col-xs-6 col-sm-4 pictureColumns' id='middlePictureColumn'>
+						<% @picSix.each do |pic| if pic.position == '2' then %>
+							<div class='pictureBox' id='middleBox' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+						<% @picSix.each do |pic| if pic.position == '5' then %>
+							<div class='pictureBoxBack' id='middleBoxBack' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+					</div>
+				<!-- END Middle Column -->
+
+				<!-- Right Column -->
+					<div class='col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-0 pictureColumns' id='rightPictureColumn'>
+						<% @picSix.each do |pic| if pic.position == '3' then %>
+							<div class='pictureBox' id='rightBox' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+						<% @picSix.each do |pic| if pic.position == '6' then %>
+							<div class='pictureBoxBack' id='rightBoxBack' style='background-image: url(<%= pic.avatar.url(:medium) %>); '>
+							</div>
+						<% end end %>
+					</div>
+				<!-- END Right Column -->
+
+			</div>
+			<!-- END Three Picture Columns -->

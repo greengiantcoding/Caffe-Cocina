@@ -1,0 +1,31 @@
+// Place all the styles related to the Admin_Abouts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+		.adminAbouts{
+			color: orange;
+			margin-bottom: 50px;
+			padding: 15px;
+			min-height: 50px;
+			border: 10px orange ridge;
+			border-radius: 5px;
+			background-color: black;
+		}
+			.textareaSpace{
+				width: 70%;
+				margin-left: 15%;
+			}
+				.updateBtns{
+					width: 10%;
+					margin-left: 45%
+				}
+				.fontFantasy{
+					font-family: fantasy;
+				}
+				.formLabels{
+					text-align: right;
+					height: 30px;
+				}
+				.formInputs{
+					height: 30px;
+				}

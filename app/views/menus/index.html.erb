@@ -1,0 +1,547 @@
+<html>
+<head>
+	<title>Contact Cafe Cocina</title>
+	<!-- <meta name="viewport" content="width=device-width"> -->
+	<style type="text/css">
+	
+	body{
+		background-image: url('/assets/orange_wall.jpeg');
+	}
+		.underline{
+			text-decoration: underline;
+		}
+
+	/*	Blackboard Column */
+		.bodyContent{
+	     	padding: 10px;
+		 	margin-left: 10px;
+	     	margin-top: 50px;
+	     	color: orange;
+	     	background-color: black;     	
+	     	border: 2px solid white;
+	     	border-radius: 5px;
+	     	box-shadow: 10px 10px 10px black;
+	    }
+		
+		.allBoards{
+			margin-top: 50px;
+			height: 500px;
+			padding-top: 15px;
+			padding-left: 20px;
+			padding-right: 20px;
+			overflow-y: scroll;
+		}
+			.menuBtn{
+				border: 1px solid red;
+				background-color: black;
+				color: red;
+			}
+			.chalk{
+				font-family: script;
+				color: white;
+				opacity: 0.65;
+			}
+			.underliner{
+				border-bottom: 3px solid orange;
+				border-radius: 5px;
+				opacity: 0.65;
+			}
+			.priceTopSpace{
+				margin-top: 10px;
+			}
+			.drinkPrices{
+				width: 30px;
+			}
+			.treatDescriptionSpace{
+				margin-left: 25px;
+			}
+			.menuBreak{
+				border-bottom: 3px solid white;
+				border-bottom-style: groove;
+				height: 100px;
+			}
+
+			.seeThrough{
+				opacity: 0.0;
+			}
+
+	/*	Polaroid Picture Column	*/
+		#rightColumn{
+			min-height: 300px;
+			margin-top: 50px;
+			
+			
+		}
+			#leftPic{
+				border-radius: 5px;
+				background-color: white;
+				border: 2px solid black;
+				height: 300px;
+				width: 240px;
+				margin-top: 45px;
+				box-shadow: 5px 5px 5px black;
+				display: inline-block;
+				-moz-transform:rotate(-35deg);
+				-webkit-transform:rotate(-35deg);	
+			}
+				#leftPicInner{
+					overflow: hidden;
+					margin: 0 auto;
+					margin-top: 7px;
+					width: 200px;
+					height: 200px;
+					/*background-color: black;*/
+					border: 2px solid black;
+				}
+				.leftPicMarginNeg{
+					margin: -25px;
+				}
+				.leftPicMarginPos{
+					margin: 25px;
+				}
+			#midPic{
+				border-radius: 5px;
+				background-color: white;
+				height: 300px;
+				width: 240px;
+				border: 2px solid black;
+				box-shadow: 5px 5px 5px black;
+				display: inline-block;
+				-moz-transform:rotate(10deg);
+				-webkit-transform:rotate(10deg);	
+			}
+				#midPicInner{
+					overflow: hidden;
+					margin: 0 auto;
+					margin-top: 7px;
+					width: 200px;
+					height: 200px;
+					/*background-color: black;*/
+					border: 2px solid black;
+				}
+			#rightPic{
+				border-radius: 5px;
+				background-color: white;
+				border: 2px solid black;
+				height: 300px;
+				width: 240px;
+				margin-top: 45px;
+				display: inline-block;		
+				box-shadow: 5px 5px 5px black;		
+				-moz-transform:rotate(35deg);
+				-webkit-transform:rotate(35deg);	
+			}
+				#rightPicInner{
+					overflow: hidden;
+					margin: 0 auto;
+					margin-top: 7px;
+					width: 200px;
+					height: 200px;
+					/*background-color: black;*/
+					border: 2px solid black;
+				}
+			.polaroidCaption{
+				font-family: cursive, script;
+				height: 90%;
+				width: 80%;
+				margin-left: 5%;
+				margin-top: 8%;
+			}
+
+	.centerDiv{
+		margin: 0 auto;
+	}
+	#menuPage{
+		padding-left: 20%;
+	}
+	#menuFooter{
+		margin-top: 500px;
+		width: 100%;
+	}
+
+
+	</style>
+
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			
+			// HIDE ON PAGE LOAD
+				$('#drinkBoard').hide();
+				$('#menuBoard').hide();
+				$('#breakfastMenu').hide();
+				$('#treatBoard').hide();
+
+			// SWITCH BLACKBOARDS ON POLAROID CLICK
+
+				// SHOW DRINK BOARD
+				$('#midPicInner').click(function(){
+					$('#menuBoard').hide();
+					$('#drinkBoard').show();
+					$('#treatBoard').hide();
+					$('#blankBoard').hide();
+				});
+
+				// SHOW MENU BOARD
+				$('#leftPicInner').click(function(){
+					$('#menuBoard').show();
+					$('#drinkBoard').hide();
+					$('#treatBoard').hide();
+					$('#blankBoard').hide();
+				})
+
+				// SHOW TREAT BOARD
+				$('#rightPicInner').click(function(){
+					$('#menuBoard').hide();
+					$('#drinkBoard').hide();
+					$('#treatBoard').show();
+					$('#blankBoard').hide();
+				})
+
+				// BACKBOARD HEIGHT SET FOR SCREEN DIMENSIONS
+				var h = $(window).height() * 0.80;
+ 				$('.backboard').css('min-height', h);
+
+ 				// CHANGE MARGIN FOR #menuPage ON SCREEN ADJUSTMENT
+ 				$(window).resize(function() {
+        			if($(window).width() <= 1024) {
+            			$('#leftPic').addClass('#leftPicMarginNeg').removeClass('#leftPicMarginPos');
+            			$('#blankBoard').css('height', '600px');
+ // $('blankBoard'). 
+ // Add in add/remove class
+ // extended board on small screens to fill space
+        			} 
+        			else {
+            			$('#leftPic').removeClass('#leftPicMarginNeg').removeClass('#leftPicMarginPos');
+            			$('#blankBoard').css('height', '350px');
+        			}
+    			}).resize(); 
+
+    			// BREAKFAST-LUNCH MENU TOGGLE
+    			$('#showLunchMenu').click(function(){
+    				$('#breakfastMenu').hide();
+    				$('#lunchMenu').show();
+    			});
+    			$('#showBreakfastMenu').click(function(){
+    				$('#lunchMenu').hide();
+    				$('#breakfastMenu').show();
+    			});
+		});
+
+	</script>
+</head>
+<body class='backboardBody'>
+
+<!-- -moz-transform:rotate(35deg); -->
+<!-- -webkit-transform:rotate(35deg);	 -->
+
+<div class='containerBox'>
+	
+	<!-- HEADER/NAVBAR -->
+	<div class='col-xs-12 navbarHeader navbar-default'>
+		
+		<div class='col-xs-2 navbarLogo' data-toggle='collapse' data-target='#theList'>
+		</div>
+
+	
+		
+		<div class='col-xs-5 col-xs-offset-1 col-lg-offset-2 navbarLink navbarBack collapse navbar-collapse' id='theList'>
+			<ul class='centerItem listItems'>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/landings'>Home</a></li>
+				
+				<li class='dropdown navLinks navLinkBack navLinkOff'>
+					<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>About</span><span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/ourstory'>Our Story</a></li>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/photo_albums'>Photos</a></li>
+					</ul>
+				</li>
+
+				<li class='dropdown navLinks navLinkBack navLinkOn'>
+					<a href="#" class='dropdown-toggle listLinkColorOn' data-toggle='dropdown' role='button' aria-expanded='false'>Menu<span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/menus'><span class='currentDropdown'>Caffe Menu <i class="fa fa-coffee"></i></span></a></li>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/catering'>Catering</a></li>
+					</ul>
+				</li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/events'>Events</a></li>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/contacts'>Contact</a></li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/reviews'>Reviews</a></li>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/merchadise'>Store</a></li>
+			</ul>
+		</div>
+		<button class='pull-right toggleBox collapsed navbar-toggle navbar-collapse' data-toggle='collapse' data-target='#theList'>
+        <span class="fa fa-bars fa-lg"></span>
+		</button>
+	</div>
+	<!-- END HEADER/NAVBAR -->
+	
+	
+
+
+	<!-- Menu Body -->
+	<div class='col-xs-12' id='menuPage'>
+		<!-- Right Column -->
+		<div class='col-xs-12 col-md-10 col-lg-10 centerText' id='rightColumn'>
+			
+			<div class='col-xs-12 col-md-4 leftPicMargin' id='leftPic'>
+				<% @picThree.each do |pic| if pic.polaroid == 1 then %>
+					<div id='leftPicInner'>
+						<%= image_tag pic.avatar.url(:small) %>
+					</div>
+				<% end end %>
+				<h1 class='polaroidCaption'>Food</h1>
+			</div>
+			<div class='col-xs-12 col-md-4' id='midPic'>
+				<% @picThree.each do |pic| if pic.polaroid == 2 then %>
+					<div id='midPicInner'>
+						<%= image_tag pic.avatar.url(:small) %>
+					</div>
+				<% end end %>
+				<h1 class='polaroidCaption'>Drinks</h1>
+			</div>
+			<div class='col-xs-12 col-md-4' id='rightPic'>
+				<% @picThree.each do |pic| if pic.polaroid == 3 then %>
+					<div id='rightPicInner' >
+						<%= image_tag pic.avatar.url(:small) %>
+					</div>
+				<% end end %>
+				<h1 class='polaroidCaption'>Treats</h1>
+			</div>
+		</div>
+		<!-- End Right Column -->
+
+		<!-- Left Column -->
+		
+<div class='col-xs-offset-1 centerText'>
+			<!-- Blank Blackboard -->
+			<div class='col-xs-9 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-7 col-lg-offset-2 bodyContent allBoards centerItem' id='blankBoard'>
+				<div class='col-xs-4 col-xs-offset-4'>
+					<h3 class='centerText'>Select a menu by clicking on a polaroid!</h3>
+				</div>
+			</div>
+
+
+			<!-- Menu Blackboard -->
+			<div class='col-xs-9 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-7 col-lg-offset-2 bodyContent allBoards' id='menuBoard'>
+				
+				<!-- Lunch Menu Board -->
+				<div class='col-xs-12 ' id='lunchMenu'>
+				 	<div class='row'>	
+				 		<div class='row centerText'>
+				 			<button class='menuBtn' id='showBreakfastMenu'>Toggle Breakfast Menu</button>
+				 		</div>
+				 		<div class='row centerText'>
+			   				<h1 class='centerText '><span class='underliner '>Lunch</span></h1>
+						</div>
+			 			<div>
+			 				<% @lunchCategoryMenu.each do |category| %>
+			 					<div class='row centerText'>
+			 						<h2><%= category.lunch_category %></h2>
+			 					</div>
+
+				 				<% @lunchMenu.each do |lunch| if lunch.lunch_category == category.lunch_category then%>
+				 					<div class='row'>	
+				 						<div class='col-xs-7 col-xs-offset-1 menuBreak'>
+				 							<h4 class='foodInfo'><%= lunch.title %></h4>
+				 							<h6 class='foodInfo '><%= lunch.description %></h6>
+				 						</div>
+				 						<div class='col-xs-2 menuBreak'>
+										<h4><%= lunch.price_label %></h4>
+										<h6>$<%= number_with_precision(lunch.price, precision:2) %></h6>
+									</div>
+									<div class='col-xs-2 menuBreak'>
+										<% if lunch.alt_price_label != 'null' then %>
+											<h4><%= lunch.alt_price_label %></h4>
+											<h6>$<%= number_with_precision(lunch.alt_price, precision:2) %></h6>
+											<% else %>
+											<h4 class='seeThrough'><%= lunch.alt_price_label %></h4>
+											<h6 class='seeThrough'>$<%= number_with_precision(lunch.alt_price, precision:2) %></h6>
+										<% end %>
+									</div>
+				 					</div>
+				 				<% end end %>
+
+			 				<% end %>
+
+			 			</div>
+					</div>
+				</div>
+
+				<!-- Breakfast Menu Board -->
+				<div class='col-xs-12 ' id='breakfastMenu'>
+					<div class='row'>
+					 	<div class='row centerText'>
+			 				<button class='menuBtn' id='showLunchMenu'>Toggle Lunch Menu</button>
+						</div>
+						<div>
+							<div class='row centerText'>
+			   					<h1 class='centerText '><span class='underliner '>Breakfast</span></h1>
+							</div>
+							<% @breakfastMenu.each do |breakfast| %>
+								<div class='row menuOverflow'>
+									<div class='col-xs-7 col-xs-offset-1 menuBreak'>
+										<h4><%= breakfast.title %></h4>
+										<h6><%= breakfast.description %></h6>
+									</div>
+									<div class='col-xs-2 menuBreak'>
+										<h4><%= breakfast.price_label %></h4>
+										<h6>$<%= number_with_precision(breakfast.price, precision:2) %></h6>
+									</div>
+									<div class='col-xs-2 menuBreak'>
+										<h4><%= breakfast.alt_price_label %></h4>
+										<h6>$<%= number_with_precision(breakfast.alt_price, precision:2) %></h6>
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Drink Blackboard -->
+			<div class='col-xs-9 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-7 col-lg-offset-2 bodyContent allBoards' id='drinkBoard'>
+				<div class='row centerText'>
+			   		<h1 class='centerText '><span class='underliner '>Hot Drinks</span></h1>
+				</div>
+			 	
+				<% @hotDrinkCategory.each do |drinkCategory| %>
+				<div class='row'>
+					<div class='col-xs-8 col-xs-offset-2'>
+						<table class='table'>
+							<thead>
+								<tr class=''>
+									<th class='centerText '></th>
+									<th class='centerText  drinkPrices'>8oz</th>
+									<th class='centerText  drinkPrices'>12oz</th>
+									<th class='centerText  drinkPrices'>16oz</th>
+									<th class='centerText  drinkPrices'>20oz</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<h2 class='centerText '><%= drinkCategory.sub_category %></h2>
+								</tr>
+								<% @hotDrinks.each do |drink| if drink.category == 'Hot' and drink.sub_category == drinkCategory.sub_category then %>
+								<tr>
+									<td class=''>
+										<h4><%= drink.title %></h4>
+										<h6><%= drink.description %></h6>
+									</td>
+									<td class='centerText '>
+										<% if drink.image_file_name != nil then %>
+											$<%= number_with_precision(drink.price_8oz, precision:2) %>
+										<% end %>
+									</td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_12oz, precision:2) %></td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_16oz, precision:2) %></td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_20oz, precision:2) %></td>
+								</tr>
+								<% end end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<% end %>
+
+
+				<div class='row centerText'>
+			   		<h1 class='centerText '><span class='underliner '>Cold Drinks</span></h1>
+				</div>
+			 	
+				<% @coldDrinkCategory.each do |drinkCategory| %>
+				<div class='row'>
+					<div class='col-xs-8 col-xs-offset-2'>
+						<table class='table'>
+							<thead>
+								<tr class=''>
+									<th class='centerText '></th>
+									<th class='centerText  drinkPrices'>8oz</th>
+									<th class='centerText  drinkPrices'>12oz</th>
+									<th class='centerText  drinkPrices'>16oz</th>
+									<th class='centerText  drinkPrices'>20oz</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<h2 class='centerText '><%= drinkCategory.sub_category %></h2>
+								</tr>
+								<% @coldDrinks.each do |drink| if drink.category == 'Cold' and drink.sub_category == drinkCategory.sub_category then %>
+								<tr>
+									<td class=''>
+										<h4><%= drink.title %></h4>
+										<h6><%= drink.description %></h6>
+									</td>
+									<td class='centerText '>
+										<% if drink.image_file_name != nil then %>
+											$<%= number_with_precision(drink.price_8oz, precision:2) %>
+										<% end %>
+									</td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_12oz, precision:2) %></td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_16oz, precision:2) %></td>
+									<td class='centerText '>$<%= number_with_precision(drink.price_20oz, precision:2) %></td>
+								</tr>
+								<% end end %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<% end %>
+
+			 </div><!-- Drink Blackboard -->
+			 
+			<!-- Treats Blackboard -->
+			<div class='col-xs-9 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-7 col-lg-offset-2 bodyContent allBoards' id='treatBoard'>
+				<div class='col-xs-12'>
+			   		<h1 class='centerText '><span class='underliner '>Tasty Treats</span></h1>
+				</div>
+				<div class='col-xs-9 col-xs-offset-1'>
+					<% @treats.each do |treat| %>
+						<div class='row'>
+							<div class='col-xs-6 col-xs-offset-2 '>
+								<h4><%= treat.title %></h4>
+								<h6 class='treatDescriptionSpace'><%= treat.description %></h6>
+							</div>
+							<div class='col-xs-1 col-xs-offset-1 '>
+								<h4>$<%= number_with_precision(treat.price, precision:2) %></h4>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+			<!-- End Treats Blackboard -->
+		</div>
+		<!-- End Left Column -->
+	</div>	
+
+
+
+
+
+	</div>
+	<!-- End Menu Body -->
+
+	<!-- Footer -->
+	<div class='col-xs-12 footerboard' id='menuFooter'>
+		
+	</div>
+	<!-- End Footer -->
+
+
+
+
+
+
+
+
+
+
+	
+
+</div>
+
+</body>
+</html>

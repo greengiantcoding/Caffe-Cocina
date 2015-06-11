@@ -1,0 +1,194 @@
+<html>
+<head>
+	<title>Landing Page</title>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		// Immediate functions //
+		$('#leftBoxBack').hide();
+		$('#middleBoxBack').hide();
+		$('#rightBoxBack').hide();
+		$('#loginForm').hide();
+
+		// Three Picture functions //
+			// Left Picture Column //
+			$('#leftPictureColumn').hover(
+				function(){
+					$('#leftBox').hide();
+					$('#leftBoxBack').show();
+			},  function(){
+					$('#leftBox').show();
+					$('#leftBoxBack').hide();
+			});
+			// Middle Picture Column //
+			$('#middlePictureColumn').hover(
+				function(){
+					$('#middleBox').hide();
+					$('#middleBoxBack').show();
+			},  function(){
+					$('#middleBox').show();
+					$('#middleBoxBack').hide();
+			});
+			// Right Picture Column //
+			$('#rightPictureColumn').hover(
+				function(){
+					$('#rightBox').hide();
+					$('#rightBoxBack').show();
+			},  function(){
+					$('#rightBox').show();
+					$('#rightBoxBack').hide();
+			});
+
+		// Show Admin Dashboard Login Form
+		$('.operations').click(function(){
+			$('#loginForm').show();
+		})
+
+	})
+
+	</script>
+
+
+
+	<style type="text/css">
+	body{
+		background-color: black;
+	}
+		#welcomeImage{
+			margin-top: 50px;
+			height: 750px;
+			background-image: url('/assets/cocina_space.jpg');
+			background-size: cover;
+		}
+		.operations{
+			text-align: center;
+			margin-top: 250px;
+		}
+		.addressRow{
+			margin-top: 25px;
+			color: white;
+			font-size: 18px;
+		}
+			.whiteText{
+				text-decoration: none;
+				color: white;
+			}
+	</style>
+
+
+
+</head>
+
+<body>
+
+<div class='containerbox'>
+
+	<!-- HEADER/NAVBAR -->
+	<div class='col-xs-12 navbarHeader navbar-default'>
+		
+		<div class='col-xs-2 navbarLogo' data-toggle='collapse' data-target='#theList'>
+		</div>
+
+	
+		
+		<div class='col-xs-5 col-xs-offset-1 col-lg-offset-2 navbarLink navbarBack collapse navbar-collapse' id='theList'>
+			<ul class='centerItem listItems'>
+				<li class='navLinks navLinkBack navLinkOn'><a class='navLinkColorOn' href='/landings'>Home</a></li>
+				
+				<li class='dropdown navLinks navLinkBack navLinkOff'>
+					<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>About</span><span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/ourstory'>Our Story</a></li>
+						<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/photo_albums'>Photos</a></li>
+					</ul>
+				</li>
+
+				<li class='dropdown navLinks navLinkBack navLinkOff'>
+					<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>Menu<span class="caret"></span></a>
+					<ul class='dropdown-menu' role='list'>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/menus'>Caffe Menu</a></li>
+						<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/catering'>Catering</a></li>
+					</ul>
+				</li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/events'>Events</a></li>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/contacts'>Contact</a></li>
+
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/reviews'>Reviews</a></li>
+				<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/merchandise'>Store</a></li>
+			</ul>
+		</div>
+		<button class='pull-right toggleBox collapsed navbar-toggle navbar-collapse' data-toggle='collapse' data-target='#theList'>
+        <span class="fa fa-bars fa-lg"></span>
+		</button>
+	</div>
+	<!-- END HEADER/NAVBAR -->
+
+	<!-- MAIN BODY OF LANDING PAGE -->
+	<div class='row'>
+		<div class='col-xs-10 col-xs-offset-1 landingBody'>
+			
+			<!-- Page Greeting -->
+			<div class='col-xs-12' id='landingPhrase'>
+				
+				<% @pageContent.each do |content| %>
+				<% if content.label == 'welcome_msg' then %>
+				<p id='landingPhraseText'><%= content.message %></p>
+				<% end %>
+				<% end %>
+			</div>
+			<!-- End Page Greeting -->
+
+			<!-- Welcome Image -->
+			<div class='row' id='welcomeImage'></div>
+			<!-- Welcome Image -->
+
+			<!-- Address And Hours -->
+			<div class='operations'>
+				<img src='/assets/longlogo.png' alt='cafe_logo_established'>
+			</div>
+			<div class='row'>
+				<div class='col-xs-4 col-xs-offset-4'>
+					<div class='addressRow'>
+						<% @pageContent.each do |content| %>
+							<% if content.label == 'address1' then %>
+								<a href="/contacts" class='whiteText'><p class='centerText'><%= content.message %></p></a>
+							<% end %>
+							<% if content.label == 'address2' then %>
+								<a href="/contacts" class='whiteText'><p class='centerText'><%= content.message %></p></a>
+							<% end %>
+							<% if content.label == 'phone_number' then %>
+								<a href="/contacts" class='whiteText'><p class='centerText'><%= content.message %></p></a>
+							<% end %>
+							<% if content.label == 'email' then %>
+								<a href="/contacts" class='whiteText'><p class='centerText'><%= content.message %></p></a>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<!-- END Address And Hours -->
+
+		</div>
+	<!-- END MAIN BODY OF LANDING PAGE -->
+	</div>
+
+	<br><br><br><br><br><br><br>
+
+			
+	<div class='landingFooter col-xs-12'>
+		<div class='loginDiv' id='loginForm'>
+			<form  action='administrations/' method='post'>
+				<input type='hidden' name='authenticity_token' value='<%=form_authenticity_token%>'>
+				<label>Admin:</label>
+				<input type='text' name='username' placeholder='Account Name'>
+				<label>Password:</label>
+				<input type='password' name='password' placeholder='Account Password'>
+				<input type='submit' class='btn-success' value='Enter'>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

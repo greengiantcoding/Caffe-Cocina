@@ -1,0 +1,277 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<html>
+<head>
+	<title>Merchandise</title>
+<style type="text/css">
+
+		modal{
+			font-family: 'Montserrat', sans-serif;
+		}
+		.imgWrapper {
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			transition: all 2.0s ease;
+		}
+
+		#imageSpace {
+			width: auto;
+			margin: 0px auto;	
+		}
+
+		.images {
+			opacity: 1.0;
+			position: absolute;
+			display: none;
+			width: 100px;
+			height: 100px;
+			transition: height 1.0s ease, width 1.0s ease, box-shadow 1.0s ease;
+			background-color: #fff;
+		}
+
+		.images:hover {
+			width: 200px;
+			height: 200px;
+			display: inline;
+			z-index:10;
+			box-shadow: 15px 15px 40px gray;
+		}
+
+		.button {
+		  border-radius: 10px;
+		  padding: 10px;
+		  box-shadow: inset 3px 3px 5px white, 5px 6px 5px 0px rgba(36, 36, 36, 0.82);
+		  color: white;
+		  z-index: 100;
+		  font-family: arial;
+		  cursor: pointer;
+		}
+			.button:hover {
+			  box-shadow:inset 3px 3px 5px white, 2px 3px 5px 0px rgba(36, 36, 36, 0.82);;
+			}
+		#shuffle {
+			margin-top: 50px;
+			background-color: red;
+		}
+
+		#sort {
+			margin-top: 50px;
+			background-color: blue;
+		}
+
+		#photoAlbum{
+		height: 750PX;
+		background-image: url('/assets/album_bg.gif');
+		background-size: cover;
+	}
+
+		
+
+	
+
+</style>
+
+<script type="text/javascript">
+	// JavaScript Document
+
+	$(document).ready(function() {
+	  var xPosition;
+	  var yPosition;
+	  var rotation;
+	  var zIdx = 1;
+
+	  var imageStart = function() {
+	    $(".imgWrapper").each(function() {
+	      var xRandom = (Math.random() + 0.3) * 9;
+	      xPosition = xRandom + "%";
+	      $(this).css('left', xPosition);
+
+	      var yRandom = (Math.random() + 0.3) * 9;
+	      yPosition = yRandom + "%";
+	      $(this).css('top', yPosition);
+
+	      $('.images').fadeIn(2000);
+	    });
+	  };
+
+	  var imageRotation = function() {
+	    $(".images").each(function() {
+	      rotation = "rotate(" + (Math.random() * -40 + 20) + "deg)";
+	      $(this).css('transform', rotation);
+	    });
+	  }
+
+	  imageStart();
+	  imageRotation();
+	  setTimeout(function() {
+	    imagePosition();
+	  }, 100);
+
+	  var imagePosition = function() {
+	    $(".imgWrapper").each(function() {
+	      var xRandom = Math.random() * 90;
+	      xPosition = xRandom + "%";
+	      $(this).css('left', xPosition);
+
+	      var yRandom = (Math.random() + 0.1) * 77;
+	      yPosition = yRandom + "%";
+	      $(this).css('top', yPosition);
+
+	      $('.images').fadeIn(1000);
+	    });
+	  };
+
+	  // Shuffle element positions on page
+	  $("#shuffle").mousedown(function() {
+	    $('.images').css('transition', 'all 2.0s ease');
+	    $('.imgWrapper').css('position', 'absolute');
+	    imagePosition();
+	    imageRotation();
+	  });
+
+	  $("#sort").mousedown(function() {
+	    docWidth = $(document).width() - 1250;
+	    docWidth = docWidth / 2;
+	    xSet = 0;
+	    xSort = docWidth+150;
+	    ySet = 0;
+	    ySort = 100;
+	    sortCounter = 0;
+	    console.log(docWidth);
+	    $('.imgWrapper').css('transition', 'all 2.0s ease');
+	    $(".imgWrapper").each(function() {
+	      if (sortCounter == 8) {
+	        sortCounter = 0;
+	        ySort = ySort + 100;
+	        xSort = docWidth+150;
+	        xSet = 0;
+	      }
+	      ySet = ySort + 'px';
+	      xSet = xSort + 'px';
+
+	      $(this).css('left', xSet);
+	      $(this).css('top', ySet);
+	      xSort = xSort + 105;
+	      sortCounter++;
+	    });
+	  });
+
+	  $('.images').mouseenter(function() {
+	    $(this).css('transform', 'rotate(0deg)');
+	    $(this).css('transition', 'all 1.0s ease, z-index 0.2s ease');
+	    $(this).css('z-index', zIdx);
+	    zIdx++;
+
+	  });
+
+	  $('.images').mouseleave(function() {
+	    rotation = "rotate(" + (Math.random() * -40 + 20) + "deg)";
+	    $(this).css('transform', rotation);
+	  });
+
+	  $('.imgWrapper').mousedown(function() {
+	    $(this).css('transition', 'height 1.0s ease, width 1.0s ease, box-shadow 1.0s ease');
+	  });
+	  
+
+	});
+
+</script>
+
+
+</head>
+
+<body class='backboardBody'>
+
+
+  <!-- HEADER/NAVBAR -->
+ <div class='col-xs-12 navbarHeader navbar-default'>
+    
+    <div class='col-xs-2 navbarLogo' data-toggle='collapse' data-target='#theList'>
+    </div>
+
+  
+    
+    <div class='col-xs-5 col-xs-offset-1 col-lg-offset-2 navbarLink navbarBack collapse navbar-collapse' id='theList'>
+      	<ul class='centerItem listItems'>
+        	<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/landings'>Home</a></li>
+
+        	<li class='dropdown navLinks navLinkBack navLinkOn'>
+  		        <a href="#" class='dropdown-toggle listLinkColorOn' data-toggle='dropdown' role='button' aria-expanded='false'>About</span><span class="caret"></span></a>
+          		<ul class='dropdown-menu' role='list'>
+            		<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/ourstory'>Our Story</a></li>
+            		<li class='navLinksDropdown '><a class='navLinksDropdownColor' href='/photo_albums'><span class='currentDropdown'>Photo Album <i class="fa fa-coffee"></i></span></a></li>
+          		</ul>
+        	</li>
+
+        	<li class='dropdown navLinks navLinkBack navLinkOff'>
+          		<a href="#" class='dropdown-toggle listLinkColor' data-toggle='dropdown' role='button' aria-expanded='false'>Menu<span class="caret"></span></a>
+          		<ul class='dropdown-menu' role='list'>
+            		<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/menus'>Caffe Menu</a></li>
+            		<li class='navLinksDropdown'><a class='navLinksDropdownColor' href='/catering'>Catering</a></li>
+          		</ul>
+        	</li>
+
+        	<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/events'>Events</a></li>
+        	<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/contacts'>Contact</a></li>
+
+        	<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/reviews'>Reviews</a></li>
+        	<li class='navLinks navLinkBack navLinkOff'><a class='navLinkColorOff' href='/merchandise'>Store</a></li>
+      	</ul>
+    </div>
+    <button class='pull-right toggleBox collapsed navbar-toggle navbar-collapse' data-toggle='collapse' data-target='#theList'>
+        <span class="fa fa-bars fa-lg"></span>
+    </button>
+</div>
+  <!-- END HEADER/NAVBAR -->
+
+<div class='row'>
+	
+	<div id="shuffle" class="button col-xs-1 col-xs-offset-5 centerText">Shuffle  <i class="fa fa-random"></i></div>
+  	<div id="sort" class="button col-xs-1 centerText">Sort  <i class="fa fa-th-large"></i></div>
+
+	<div class='col-xs-12 col-md-10 col-md-offset-1' id='photoAlbum'>
+		<div id="imageSpace">
+			<% @allPhotos.each do |photo| %>
+				<div class='imgWrapper'>
+					<div type='button' class='images' data-toggle='modal' data-target='#modal<%=photo.id%>' id='photo<%=photo.id%>'
+						style='background-image: url(<%= photo.avatar.url(:medium) %>); background-size: cover; '>
+					</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal<%=photo.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><%= photo.caption %></h4>
+      </div>
+      <div class="modal-body">
+        	<%= image_tag photo.avatar.url(:xtralarge) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- sdfsdfs -->
+				</div>
+			<% end %>
+ 		</div>
+	</div>
+</div>
+
+
+</body>
+
+</html>
+
+
+</body>
+</html>
